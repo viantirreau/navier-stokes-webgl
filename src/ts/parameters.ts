@@ -122,6 +122,20 @@ const displayInfo: DisplayInfo = {
     obstacles: true,
 }
 
+interface DebugComponents {
+    c1: number,
+    c2: number,
+    c3: number,
+    c4: number
+}
+
+const debugComponents: DebugComponents = {
+    c1: 0.5,
+    c2: 0.0,
+    c3: 0.7,
+    c4: 0.2
+}
+
 function bindControls(fluid: Fluid): void {
     {
         const RESOLUTIONS_CONTROL_ID = "resolution";
@@ -215,6 +229,30 @@ function bindControls(fluid: Fluid): void {
         Page.Checkbox.addObserver(DISPLAY_OBSTACLES_CONTROL_ID, updateDisplayObstacles);
         updateDisplayObstacles(Page.Checkbox.isChecked(DISPLAY_OBSTACLES_CONTROL_ID));
     }
+    {
+        const DEBUG_COMPONENT_1_CONTROL_ID = "component-1-range-id";
+        const updateComponent1 = (c1: number) => { debugComponents.c1 = c1; };
+        Page.Range.addObserver(DEBUG_COMPONENT_1_CONTROL_ID, updateComponent1);
+        updateComponent1(Page.Range.getValue(DEBUG_COMPONENT_1_CONTROL_ID));
+    }
+    {
+        const DEBUG_COMPONENT_2_CONTROL_ID = "component-2-range-id";
+        const updateComponent2 = (c2: number) => { debugComponents.c2 = c2; };
+        Page.Range.addObserver(DEBUG_COMPONENT_2_CONTROL_ID, updateComponent2);
+        updateComponent2(Page.Range.getValue(DEBUG_COMPONENT_2_CONTROL_ID));
+    }
+    {
+        const DEBUG_COMPONENT_3_CONTROL_ID = "component-3-range-id";
+        const updateComponent3 = (c3: number) => { debugComponents.c3 = c3; };
+        Page.Range.addObserver(DEBUG_COMPONENT_3_CONTROL_ID, updateComponent3);
+        updateComponent3(Page.Range.getValue(DEBUG_COMPONENT_3_CONTROL_ID));
+    }
+    {
+        const DEBUG_COMPONENT_4_CONTROL_ID = "component-4-range-id";
+        const updateComponent4 = (c4: number) => { debugComponents.c4 = c4; };
+        Page.Range.addObserver(DEBUG_COMPONENT_4_CONTROL_ID, updateComponent4);
+        updateComponent4(Page.Range.getValue(DEBUG_COMPONENT_4_CONTROL_ID));
+    }
 }
 
 function bind(fluid: Fluid): void {
@@ -228,5 +266,6 @@ export {
     brushInfo as brush,
     displayInfo as display,
     obstaclesInfo as obstacles,
-    fluidInfo as fluid
+    fluidInfo as fluid,
+    debugComponents
 };

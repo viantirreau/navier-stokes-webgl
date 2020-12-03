@@ -35,7 +35,6 @@ class VBO extends GLResource {
       minX, maxY,
       maxX, maxY,
     ];
-
     return new VBO(gl, new Float32Array(vert), 2, gl.FLOAT);
   }
 

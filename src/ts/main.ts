@@ -14,15 +14,23 @@ function initGL(canvas: HTMLCanvasElement, flags: any): WebGLRenderingContext {
         Page.Demopage.setErrorMessage("webgl-support", message);
     }
 
-    let gl: WebGLRenderingContext = canvas.getContext("webgl", flags) as WebGLRenderingContext;
+    let gl: WebGLRenderingContext = canvas.getContext(
+        "webgl",
+        flags
+    ) as WebGLRenderingContext;
     if (!gl) {
-        gl = canvas.getContext("experimental-webgl", flags) as WebGLRenderingContext;
+        gl = canvas.getContext(
+            "experimental-webgl",
+            flags
+        ) as WebGLRenderingContext;
         if (!gl) {
             setError("Your browser or device does not seem to support WebGL.");
             return null;
         }
-        setError("Your browser or device only supports experimental WebGL.\n" +
-            "The simulation may not run as expected.");
+        setError(
+            "Your browser or device only supports experimental WebGL.\n" +
+            "The simulation may not run as expected."
+        );
     }
 
     if (gl) {
@@ -40,9 +48,8 @@ function initGL(canvas: HTMLCanvasElement, flags: any): WebGLRenderingContext {
 
 function main() {
     const canvas: HTMLCanvasElement = Page.Canvas.getCanvas();
-    const gl: WebGLRenderingContext = initGL(canvas, { alpha: false });
-    if (!gl || !Requirements.check(gl))
-        return;
+    const gl: WebGLRenderingContext = initGL(canvas, { alpha: false, antialias: false });
+    if (!gl || !Requirements.check(gl)) return;
 
     const extensions: string[] = [
         "OES_texture_float",
@@ -51,7 +58,7 @@ function main() {
     ];
     Requirements.loadExtensions(gl, extensions);
 
-    const size = 256;
+    const size = 1024;
 
     const fluid = new Fluid(gl, size, size);
     const brush = new Brush(gl);
@@ -63,16 +70,10 @@ function main() {
     }
     obstacleMaps["many"] = new ObstacleMap(gl, size, size);
     {
-        let size = [0.012, 0.012];
-        for (let iX = 0; iX < 5; ++iX) {
-            for (let iY = -iX / 2; iY <= iX / 2; ++iY) {
-                size = [size[0] + 0.0005, size[1] + 0.0005];
-                const pos = [0.3 + iX * 0.07, 0.5 + iY * 0.08];
-                obstacleMaps["many"].addObstacle(size, pos);
-            }
-        }
+        let radius = [0.17, 0.17];
+        let pos = [0.7, 0.5];
+        obstacleMaps["many"].addObstacle(radius, pos);
     }
-
     Parameters.bind(fluid);
 
     /* Update the FPS indicator every second. */
@@ -81,7 +82,6 @@ function main() {
         Page.Canvas.setIndicatorText("fps", instantFPS.toFixed(0));
     };
     setInterval(updateFpsText, 1000);
-
     let lastUpdate = 0;
     function mainLoop(time: number) {
         time *= 0.001; //dt is now in seconds
@@ -116,12 +116,7 @@ function main() {
         }
 
         if (Parameters.display.obstacles) {
-            obstacleMap.draw();
-        }
-
-        if (Parameters.display.velocity && Parameters.display.pressure) {
-            gl.viewport(10, 10, 128, 128);
-            fluid.drawPressure();
+            obstacleMap.draw(dt);
         }
 
         requestAnimationFrame(mainLoop);

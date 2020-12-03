@@ -233,6 +233,8 @@ class ShaderProgram extends GLResource {
     for (let uName in this.u) {
       const uniform = this.u[uName];
       if (uniform.value !== null) {
+        // type 0x8B5E -> SAMPLER_2D
+        // type 0x8B60 -> SAMPLER_CUBE
         if (uniform.type === 0x8B5E || uniform.type === 0x8B60) {
           const unitNb: number = currTextureUnitNb;
           types[uniform.type].binder(gl, uniform.loc, unitNb, uniform.value);

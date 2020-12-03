@@ -13,7 +13,6 @@ vec2 decodeObstacle(vec4 texel) {
 
 const drawVert =
   `attribute vec2 aCorner; //{0,1}x{0,1}
-
 varying vec2 sampleCoords;
 
 void main(void) {
@@ -25,7 +24,6 @@ const drawFrag =
   `precision mediump float;
 
 uniform sampler2D uObstacles;
-
 varying vec2 sampleCoords;
 
 ___ENCODING___
@@ -35,35 +33,33 @@ void main(void) {
     if (dot(obstacle, obstacle) < 0.5)
         discard;
 
-    gl_FragColor = vec4(0.5*obstacle + 0.5, 0, 0);
+    gl_FragColor = vec4(1, 1, 1, 0);
 }`;
 
 const addObstacleVert =
-  `uniform vec2 uSize; //relative, in [0,1]x[0,1]
-uniform vec2 uPos; //relative, in [0,1]x[0,1]
-
-attribute vec2 aCorner; //in {-1,+1}x{-1,+1}
-
+  `uniform vec2 uSize;  // relative, in [0,1] x [0,1]
+uniform vec2 uPos;      // relative, in [0,1] x [0,1]
+attribute vec2 aCorner; // in {-1,+1}x{-1,+1}
 varying vec2 toCenter;
-
+uniform float rot;
+mat2 rotation = mat2(cos(rot), -sin(rot), sin(rot), cos(rot));
 void main(void) {
-    toCenter = -aCorner;
-
-    vec2 pos = uPos + aCorner * uSize;
-
+    toCenter = -aCorner + 0.5;
+    
+    vec2 pos = rotation * (uPos + aCorner * uSize -vec2(0.5,0.5)) + vec2(0.5, 0.5);
     gl_Position = vec4(2.0 * pos - 1.0, 0, 1);
 }`;
 
 const addObstacleFrag =
   `precision mediump float;
-
+  
 varying vec2 toCenter;
 
 ___ENCODING___
 
 void main(void) {
     float dist = length(toCenter);
-    if (dist > 1.0)
+    if (!(dist > 0.8 && dist < 1.0))
         discard;
 
     vec2 normal = -toCenter / dist;

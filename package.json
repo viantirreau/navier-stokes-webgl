@@ -4,10 +4,11 @@
   "homepage": "https://piellardj.github.io/navier-stokes-webgl",
   "description": "Stable fluid simulation running on GPU",
   "scripts": {
-    "build-page": "ts-node-script src/generate-page.ts",
+    "build-page": "WD=`pwd` && cd / && ts-node-script $WD/src/generate-page.ts",
     "build": "npm run build-page && npm run webpack",
     "clean": "shx rm -rf docs/* **/*generated.*",
-    "rebuild": "npm run clean && npm run build",
+    "remove-tmp": "shx rm -rf tmp",
+    "rebuild": "npm run clean && npm run build && npm run remove-tmp",
     "webpack": "webpack --config src/config/webpack.config.js --mode=production --output docs/script/main.js"
   },
   "author": "“Jérémie PIELLARD <jeremie.piellard@gmail.com> (https://github.com/piellardj)",

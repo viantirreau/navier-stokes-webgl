@@ -4,7 +4,7 @@ import { ShaderSrc } from "./build-shaders";
 import { encodingStr as encodingObstaclesStr } from "./obstacle-map-shaders";
 
 const rawEncodingStr =
-`const float MAX_SPEED = 1.0;
+  `const float MAX_SPEED = 1.0;
 const float SPEED_BANDWIDTH = 2.01 * MAX_SPEED;
 
 const float MIN_DIVERGENCE = -4.0 * MAX_SPEED;
@@ -70,7 +70,7 @@ ___ENCODING_VELOCITY___
 ___ENCODING_OBSTACLES___`;
 
 const encodingVelocityFloatStr =
-`vec4 encodeVelocity(vec2 vel) {
+  `vec4 encodeVelocity(vec2 vel) {
     return vec4(vel, 0, 0);
 }
 vec2 decodeVelocity(vec4 texel) {
@@ -78,7 +78,7 @@ vec2 decodeVelocity(vec4 texel) {
 }`;
 
 const encodingVelocityNoFloatStr =
-`vec4 encodeVelocity(vec2 vel) {
+  `vec4 encodeVelocity(vec2 vel) {
     vel = 0.5 * (vel / MAX_SPEED + 1.0);
     return vec4(encode16bit(vel.x), encode16bit(vel.y));
 }
@@ -88,7 +88,7 @@ vec2 decodeVelocity(vec4 texel) {
 }`;
 
 const addVelVert =
-`uniform vec2 uBrushSize; //relative, in [0,1]x[0,1]
+  `uniform vec2 uBrushSize; //relative, in [0,1]x[0,1]
 uniform vec2 uBrushPos; //relative, in [0,1]x[0,1]
 
 attribute vec2 aCorner; //{0,1}x{0,1}
@@ -104,7 +104,7 @@ void main(void) {
 }`;
 
 const addVelFrag =
-`precision mediump float;
+  `precision mediump float;
 
 uniform sampler2D uVel;
 
@@ -128,7 +128,7 @@ void main(void) {
 }`;
 
 const fullscreenVert =
-`attribute vec2 aCorner; //{0,1}x{0,1}
+  `attribute vec2 aCorner; //{0,1}x{0,1}
 
 varying vec2 sampleCoords;
 
@@ -138,7 +138,7 @@ void main(void) {
 }`;
 
 const advectFrag =
-`precision mediump float;
+  `precision mediump float;
 
 uniform sampler2D uQuantity; //thing to advect
 uniform sampler2D uVel;
@@ -165,6 +165,7 @@ uniform sampler2D uObstacles;
 
 uniform float uAlpha;
 uniform float uInvBeta;
+// uniform float rot;
 
 uniform vec2 uTexelSize;
 
@@ -173,7 +174,9 @@ varying vec2 sampleCoords;
 ___ENCODING___
 
 void main(void) {
-    vec2 obstacle = decodeObstacle(texture2D(uObstacles, sampleCoords));
+    // mat2 rotation = mat2(cos(rot), -sin(rot), sin(rot), cos(rot));
+    // vec2 obstacle = decodeObstacle(texture2D(uObstacles,  rotation * (sampleCoords - vec2(0.5, 0.5)) + vec2(0.5, 0.5)));
+    vec2 obstacle = decodeObstacle(texture2D(uObstacles,  sampleCoords));
     vec2 coords = sampleCoords + uTexelSize * obstacle;
 
     float result = decodePressure(texture2D(uPrevIter, coords - vec2(uTexelSize.x,0))) +
@@ -244,15 +247,17 @@ const obstacleVelocityFrag =
 
 uniform sampler2D uVelocities;
 uniform sampler2D uObstacles;
-
 uniform vec2 uTexelSize;
+// uniform float rot;
 
 varying vec2 sampleCoords;
 
 ___ENCODING___
 
 void main(void) {
-    vec2 obstacle = decodeObstacle(texture2D(uObstacles, sampleCoords));
+    // mat2 rotation = mat2(cos(rot), -sin(rot), sin(rot), cos(rot));
+    // vec2 obstacle = decodeObstacle(texture2D(uObstacles,  rotation * (sampleCoords - vec2(0.5, 0.5)) + vec2(0.5, 0.5)));
+    vec2 obstacle = decodeObstacle(texture2D(uObstacles,  sampleCoords));
     vec2 coords = sampleCoords + obstacle * uTexelSize;
 
     vec2 vel = decodeVelocity(texture2D(uVelocities, coords));
@@ -356,7 +361,7 @@ const obstaclesVelocitySrc = new ShaderSrc(fullscreenVert, obstacleVelocityFrag)
 function buildFullscreenShader(gl: WebGLRenderingContext, src: ShaderSrc): Shader {
   const vertSrc = src.vert;
   let fragSrc = src.frag.replace(/___ENCODING___/g, encodingStr);
-  
+
   const shader = new Shader(gl, vertSrc, fragSrc);
   shader.a["aCorner"].VBO = VBO.createQuad(gl, 0, 0, 1, 1);
   return shader;

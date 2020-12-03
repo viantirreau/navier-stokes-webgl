@@ -1,8 +1,9 @@
-import * as fs from "fs";
-import * as path from "path";
-import { Demopage } from "webpage-templates";
-
-const data = {
+"use strict";
+exports.__esModule = true;
+var fs = require("fs");
+var path = require("path");
+var webpage_templates_1 = require("webpage-templates");
+var data = {
     title: "Navier-Stokes",
     description: "Stable fluid simulation running on GPU",
     introduction: [
@@ -27,38 +28,38 @@ const data = {
     },
     controlsSections: [
         {
-            title: "Simulación",
+            title: "Simulation",
             controls: [
                 {
-                    type: Demopage.supportedControls.Tabs,
-                    title: "Resolución",
+                    type: webpage_templates_1.Demopage.supportedControls.Tabs,
+                    title: "Resolution",
                     id: "resolution",
                     unique: true,
                     options: [
                         {
-                            value: "256",
-                            label: "256"
+                            value: "128",
+                            label: "128"
                         },
                         {
-                            value: "512",
-                            label: "512",
+                            value: "256",
+                            label: "256",
                             checked: true
                         },
                         {
-                            value: "1024",
-                            label: "1024"
+                            value: "512",
+                            label: "512"
                         }
                     ]
                 },
                 {
-                    type: Demopage.supportedControls.Checkbox,
-                    title: "Alta calidad",
+                    type: webpage_templates_1.Demopage.supportedControls.Checkbox,
+                    title: "Float texture",
                     id: "float-texture-checkbox-id",
                     checked: true
                 },
                 {
-                    type: Demopage.supportedControls.Range,
-                    title: "Iteraciones",
+                    type: webpage_templates_1.Demopage.supportedControls.Range,
+                    title: "Solver steps",
                     id: "solver-steps-range-id",
                     min: 1,
                     max: 99,
@@ -66,37 +67,37 @@ const data = {
                     step: 2
                 },
                 {
-                    type: Demopage.supportedControls.Range,
-                    title: "Delta tiempo",
+                    type: webpage_templates_1.Demopage.supportedControls.Range,
+                    title: "Time step",
                     id: "timestep-range-id",
                     min: 0.01,
-                    max: 0.05,
-                    value: 0.02,
-                    step: 0.0005
+                    max: 0.1,
+                    value: 0.033,
+                    step: 0.001
                 },
                 {
-                    type: Demopage.supportedControls.Checkbox,
-                    title: "Habilitar flujo",
+                    type: webpage_templates_1.Demopage.supportedControls.Checkbox,
+                    title: "Stream",
                     id: "stream-checkbox-id",
                     checked: true
                 },
                 {
-                    type: Demopage.supportedControls.Tabs,
-                    title: "Obstáculos",
+                    type: webpage_templates_1.Demopage.supportedControls.Tabs,
+                    title: "Obstacles",
                     id: "obstacles",
                     unique: true,
                     options: [
                         {
                             value: "none",
-                            label: "Ninguno"
+                            label: "None"
                         },
                         {
                             value: "one",
-                            label: "Uno"
+                            label: "One"
                         },
                         {
                             value: "many",
-                            label: "Varios",
+                            label: "Many",
                             checked: true
                         }
                     ]
@@ -104,11 +105,11 @@ const data = {
             ]
         },
         {
-            title: "Pincel",
+            title: "Brush",
             controls: [
                 {
-                    type: Demopage.supportedControls.Range,
-                    title: "Radio",
+                    type: webpage_templates_1.Demopage.supportedControls.Range,
+                    title: "Radius",
                     id: "brush-radius-range-id",
                     min: 20,
                     max: 100,
@@ -116,8 +117,8 @@ const data = {
                     step: 1
                 },
                 {
-                    type: Demopage.supportedControls.Range,
-                    title: "Fuerza",
+                    type: webpage_templates_1.Demopage.supportedControls.Range,
+                    title: "Strength",
                     id: "brush-strength-range-id",
                     min: 20,
                     max: 200,
@@ -127,28 +128,28 @@ const data = {
             ]
         },
         {
-            title: "Visualizar",
+            title: "Display",
             controls: [
                 {
-                    type: Demopage.supportedControls.Tabs,
-                    title: "Campos",
+                    type: webpage_templates_1.Demopage.supportedControls.Tabs,
+                    title: "Fields",
                     id: "displayed-fields",
-                    unique: true,
+                    unique: false,
                     options: [
                         {
                             value: "velocity",
-                            label: "Velocidad",
+                            label: "Velocity",
                             checked: true
                         },
                         {
                             value: "pressure",
-                            label: "Presión"
+                            label: "Pressure"
                         }
                     ]
                 },
                 {
-                    type: Demopage.supportedControls.Range,
-                    title: "Intensidad",
+                    type: webpage_templates_1.Demopage.supportedControls.Range,
+                    title: "Intensity",
                     id: "intensity-range-id",
                     min: 0.1,
                     max: 10,
@@ -156,72 +157,27 @@ const data = {
                     step: 0.1
                 },
                 {
-                    type: Demopage.supportedControls.Checkbox,
+                    type: webpage_templates_1.Demopage.supportedControls.Checkbox,
                     title: "Color",
                     id: "display-color-checkbox-id",
                     checked: true
                 },
                 {
-                    type: Demopage.supportedControls.Checkbox,
-                    title: "Obstáculos",
+                    type: webpage_templates_1.Demopage.supportedControls.Checkbox,
+                    title: "Obstacles",
                     id: "display-obstacles-checkbox-id",
                     checked: true
-                }
-            ]
-        },
-        {
-            title: "Debug",
-            controls: [
-                {
-                    type: Demopage.supportedControls.Range,
-                    title: "Componente 1",
-                    id: "component-1-range-id",
-                    min: 0,
-                    max: 1.0,
-                    value: 0.05,
-                    step: 0.01
-                },
-                {
-                    type: Demopage.supportedControls.Range,
-                    title: "Componente 2",
-                    id: "component-2-range-id",
-                    min: 0,
-                    max: 1.0,
-                    value: 0.05,
-                    step: 0.01
-                },
-                {
-                    type: Demopage.supportedControls.Range,
-                    title: "Componente 3",
-                    id: "component-3-range-id",
-                    min: 0,
-                    max: 1.0,
-                    value: 0.05,
-                    step: 0.01
-                },
-                {
-                    type: Demopage.supportedControls.Range,
-                    title: "Componente 4",
-                    id: "component-4-range-id",
-                    min: 0,
-                    max: 1.0,
-                    value: 0.05,
-                    step: 0.01
                 }
             ]
         }
     ]
 };
-
-const DEST_DIR = path.resolve(__dirname, "..", "docs");
-const minified = true;
-
-const buildResult = Demopage.build(data, DEST_DIR, {
-    debug: !minified,
+var DEST_DIR = path.resolve(__dirname, "..", "docs");
+var minified = true;
+var buildResult = webpage_templates_1.Demopage.build(data, DEST_DIR, {
+    debug: !minified
 });
-
 // disable linting on this file because it is generated
 buildResult.pageScriptDeclaration = "/* tslint:disable */\n" + buildResult.pageScriptDeclaration;
-
-const SCRIPT_DECLARATION_FILEPATH = path.resolve(__dirname, ".", "ts", "page-interface-generated.ts");
+var SCRIPT_DECLARATION_FILEPATH = path.resolve(__dirname, ".", "ts", "page-interface-generated.ts");
 fs.writeFileSync(SCRIPT_DECLARATION_FILEPATH, buildResult.pageScriptDeclaration);

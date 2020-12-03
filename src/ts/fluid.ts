@@ -207,6 +207,7 @@ class Fluid extends GLResource {
     obstacleVelocityShader.u["uVelocities"].value = this._velTextures[this.currIndex];
     obstacleVelocityShader.u["uObstacles"].value = obstacleMap.texture;
     obstacleVelocityShader.u["uTexelSize"].value = this.texelSize;
+    // obstacleVelocityShader.u["rot"].value = 0.0001 * performance.now();
 
     this._FBO.bind([this._velTextures[this.nextIndex]]);
 
@@ -263,7 +264,7 @@ class Fluid extends GLResource {
     jacobiPressureShader.u["uInvBeta"].value = 1 / beta;
     jacobiPressureShader.u["uConstantTerm"].value = cstTerm;
     jacobiPressureShader.u["uObstacles"].value = obstacleMap.texture;
-
+    // jacobiPressureShader.u["rot"].value = 0.0001 * performance.now();
     let index = 0;
     let textures = [this._tmpTexture, dst];
     this._FBO.bind([this._tmpTexture]);

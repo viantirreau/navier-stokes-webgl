@@ -14,6 +14,9 @@ class ObstacleMap extends GLResource {
   private _drawShader: Shader;
   private _addShader: Shader;
 
+  private _hasPrinted: number;
+  private _texelData: Uint8Array;
+
   constructor(gl: WebGLRenderingContext, width: number, height: number) {
     super(gl);
 
@@ -26,6 +29,7 @@ class ObstacleMap extends GLResource {
     this._addShader = ObstacleMapShaders.buildAddShader(gl);
 
     this.initObstaclesMap();
+    this._hasPrinted = 0;
   }
 
   public freeGLResources(): void {
@@ -33,7 +37,7 @@ class ObstacleMap extends GLResource {
 
     this._fbo.freeGLResources();
     this._fbo = null;
-    
+
     gl.deleteTexture(this._texture);
     gl.deleteTexture(this._initTexture);
 
@@ -47,26 +51,58 @@ class ObstacleMap extends GLResource {
     return this._texture;
   }
 
-  public draw(): void {
+  public draw(dt: number): void {
     const gl = super.gl();
     const drawShader = this._drawShader;
+    const addShader = this._addShader;
 
-    drawShader.u["uObstacles"].value = this.texture;
+    // Draw the blades
+    drawShader.u["uObstacles"].value = this._texture;
     drawShader.use();
     drawShader.bindUniformsAndAttributes();
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+    this.cleanPreviousFrame();
+    // Rotate the blades 
+    addShader.u["rot"].value += 0.8 * dt;
+    this._fbo.bind([this._texture]);
+    addShader.use();
+    addShader.bindUniformsAndAttributes();
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+    // if (this._hasPrinted < 15) {
+    //   console.log(addShader.u["rot"].value);
+    //   this._hasPrinted++;
+    // }
   }
 
-  public addObstacle(pos, size): void {
+  public addObstacle(size: Float32Array, pos: Float32Array): void {
     const gl = super.gl();
     const addShader = this._addShader;
-    addShader.u["uSize"].value = pos;
-    addShader.u["uPos"].value = size;
+    addShader.u["uSize"].value = size;
+    addShader.u["uPos"].value = pos;
 
     this._fbo.bind([this._texture]);
     addShader.use();
     addShader.bindUniformsAndAttributes();
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  }
+
+  private cleanPreviousFrame(): void {
+    const gl = super.gl()
+    gl.bindTexture(gl.TEXTURE_2D, this._texture);
+    gl.texImage2D(
+      gl.TEXTURE_2D,
+      0,
+      gl.RGBA,
+      this._width,
+      this._height,
+      0,
+      gl.RGBA,
+      gl.UNSIGNED_BYTE,
+      this._texelData
+    );
+    gl.bindTexture(gl.TEXTURE_2D, null);
   }
 
   private initObstaclesMap(): void {
@@ -91,13 +127,23 @@ class ObstacleMap extends GLResource {
       }
     }
     const data = new Uint8Array(texels);
+    this._texelData = data;
 
     const textures: WebGLTexture[] = [];
     for (let i = 0; i < 2; ++i) {
       const tex = gl.createTexture();
       gl.bindTexture(gl.TEXTURE_2D, tex);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0,
-        gl.RGBA, gl.UNSIGNED_BYTE, data);
+      gl.texImage2D(
+        gl.TEXTURE_2D,
+        0,
+        gl.RGBA,
+        width,
+        height,
+        0,
+        gl.RGBA,
+        gl.UNSIGNED_BYTE,
+        data
+      );
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);

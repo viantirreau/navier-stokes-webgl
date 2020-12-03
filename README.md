@@ -18,3 +18,11 @@ To do so the following extensions must be available: `OES_texture_float`, `WEBGL
 * velocity stored in normal textures with four 8bit channels.
 In this mode each component is stored as a 16bit fixed point value, encoded in two 8bit texture channels.
 This mode provides less precision for the computing, and you can see artifacts if you push the display color intensity to the maximum.
+
+# Building the app
+
+Make sure to install all the dependencies with `npm i`, and then 
+run `npm run build` for the first time from the project directory.
+
+You can also rebuild the generated `docs` folder with `npm run rebuild`, 
+which is usual in the development cycle.
