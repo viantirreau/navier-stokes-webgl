@@ -31,8 +31,7 @@ ___ENCODING___
 void main(void) {
     vec2 obstacle = decodeObstacle(texture2D(uObstacles, sampleCoords));
     if (dot(obstacle, obstacle) < 0.5)
-        discard;
-
+      discard;
     gl_FragColor = vec4(1, 1, 1, 0);
 }`;
 
@@ -42,11 +41,12 @@ uniform vec2 uPos;      // relative, in [0,1] x [0,1]
 attribute vec2 aCorner; // in {-1,+1}x{-1,+1}
 varying vec2 toCenter;
 uniform float rot;
+uniform float offset;
 mat2 rotation = mat2(cos(rot), -sin(rot), sin(rot), cos(rot));
+mat2 rotationOff = mat2(cos(offset), -sin(offset), sin(offset), cos(offset));
 void main(void) {
-    toCenter = -aCorner + 0.5;
-    
-    vec2 pos = rotation * (uPos + aCorner * uSize -vec2(0.5,0.5)) + vec2(0.5, 0.5);
+    toCenter = -aCorner;
+    vec2 pos =  rotation * (uPos + rotationOff*(aCorner * uSize) - 0.5) + 0.5;
     gl_Position = vec4(2.0 * pos - 1.0, 0, 1);
 }`;
 
@@ -54,16 +54,19 @@ const addObstacleFrag =
   `precision mediump float;
   
 varying vec2 toCenter;
+varying vec2 cornerPos[4];
+
 
 ___ENCODING___
 
 void main(void) {
-    float dist = length(toCenter);
-    if (!(dist > 0.8 && dist < 1.0))
-        discard;
+  float dist = length(toCenter);
+  if (dist > 1.0 || dist < 0.8 || toCenter.y < 0.0)
+    discard;
+  vec2 normal = -toCenter / (dist);
+  gl_FragColor = encodeObstacle(normal);
 
-    vec2 normal = -toCenter / dist;
-    gl_FragColor = encodeObstacle(normal);
+  // if (dist > 1.0 || gl_FragCoord.x < 512. || gl_FragCoord.y < 512.)
 }`;
 
 

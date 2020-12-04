@@ -51,7 +51,12 @@ class ObstacleMap extends GLResource {
     return this._texture;
   }
 
-  public draw(dt: number): void {
+  public draw(
+    dt: number,
+    nBlades: number,
+    bladeRadius: number,
+    centerOffset: number
+  ): void {
     const gl = super.gl();
     const drawShader = this._drawShader;
     const addShader = this._addShader;
@@ -63,20 +68,33 @@ class ObstacleMap extends GLResource {
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
     this.cleanPreviousFrame();
-    // Rotate the blades 
-    addShader.u["rot"].value += 0.8 * dt;
-    this._fbo.bind([this._texture]);
-    addShader.use();
-    addShader.bindUniformsAndAttributes();
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-
+    // Rotate the blades
+    for (let i = 0; i < nBlades; i++) {
+      // We add 0.5 to center the turbine
+      let angleOffset = (i / nBlades) * 2 * 3.14159;
+      // r * cos theta + 0.5  == r * cos (2 PI * i/nBlades) + 0.5
+      let posX = (bladeRadius + centerOffset) * Math.cos(angleOffset) + 0.5;
+      // r * sin theta + 0.5 == r * sin (2 PI * i/nBlades) + 0.5
+      let posY = (bladeRadius + centerOffset) * Math.sin(angleOffset) + 0.5;
+      addShader.u["uSize"].value = [bladeRadius, bladeRadius];
+      addShader.u["uPos"].value = [posX, posY];
+      addShader.u["rot"].value += 0.08 * dt;
+      addShader.u["offset"].value = (nBlades - 1) * angleOffset;
+      this._fbo.bind([this._texture]);
+      addShader.use();
+      addShader.bindUniformsAndAttributes();
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    }
     // if (this._hasPrinted < 15) {
     //   console.log(addShader.u["rot"].value);
     //   this._hasPrinted++;
     // }
   }
 
-  public addObstacle(size: Float32Array, pos: Float32Array): void {
+  public addObstacle(
+    size: Float32Array | number[],
+    pos: Float32Array | number[]
+  ): void {
     const gl = super.gl();
     const addShader = this._addShader;
     addShader.u["uSize"].value = size;
@@ -89,7 +107,7 @@ class ObstacleMap extends GLResource {
   }
 
   private cleanPreviousFrame(): void {
-    const gl = super.gl()
+    const gl = super.gl();
     gl.bindTexture(gl.TEXTURE_2D, this._texture);
     gl.texImage2D(
       gl.TEXTURE_2D,

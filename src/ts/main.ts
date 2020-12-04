@@ -10,119 +10,114 @@ import "./page-interface-generated";
 
 /** Initializes a WebGL context */
 function initGL(canvas: HTMLCanvasElement, flags: any): WebGLRenderingContext {
-    function setError(message: string) {
-        Page.Demopage.setErrorMessage("webgl-support", message);
-    }
+  function setError(message: string) {
+    Page.Demopage.setErrorMessage("webgl-support", message);
+  }
 
-    let gl: WebGLRenderingContext = canvas.getContext(
-        "webgl",
-        flags
+  let gl: WebGLRenderingContext = canvas.getContext(
+    "webgl",
+    flags
+  ) as WebGLRenderingContext;
+  if (!gl) {
+    gl = canvas.getContext(
+      "experimental-webgl",
+      flags
     ) as WebGLRenderingContext;
     if (!gl) {
-        gl = canvas.getContext(
-            "experimental-webgl",
-            flags
-        ) as WebGLRenderingContext;
-        if (!gl) {
-            setError("Your browser or device does not seem to support WebGL.");
-            return null;
-        }
-        setError(
-            "Your browser or device only supports experimental WebGL.\n" +
-            "The simulation may not run as expected."
-        );
+      setError("Your browser or device does not seem to support WebGL.");
+      return null;
     }
+    setError(
+      "Your browser or device only supports experimental WebGL.\n" +
+        "The simulation may not run as expected."
+    );
+  }
 
-    if (gl) {
-        canvas.style.cursor = "none";
-        gl.disable(gl.CULL_FACE);
-        gl.disable(gl.DEPTH_TEST);
-        gl.disable(gl.BLEND);
-        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+  if (gl) {
+    canvas.style.cursor = "none";
+    gl.disable(gl.CULL_FACE);
+    gl.disable(gl.DEPTH_TEST);
+    gl.disable(gl.BLEND);
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
-        Utils.resizeCanvas(gl, false);
-    }
+    Utils.resizeCanvas(gl, false);
+  }
 
-    return gl;
+  return gl;
 }
 
 function main() {
-    const canvas: HTMLCanvasElement = Page.Canvas.getCanvas();
-    const gl: WebGLRenderingContext = initGL(canvas, { alpha: false, antialias: false });
-    if (!gl || !Requirements.check(gl)) return;
+  const canvas: HTMLCanvasElement = Page.Canvas.getCanvas();
+  const gl: WebGLRenderingContext = initGL(canvas, {
+    alpha: false,
+    antialias: false,
+  });
+  if (!gl || !Requirements.check(gl)) return;
 
-    const extensions: string[] = [
-        "OES_texture_float",
-        "WEBGL_color_buffer_float",
-        "OES_texture_float_linear",
-    ];
-    Requirements.loadExtensions(gl, extensions);
+  const extensions: string[] = [
+    "OES_texture_float",
+    "WEBGL_color_buffer_float",
+    "OES_texture_float_linear",
+  ];
+  Requirements.loadExtensions(gl, extensions);
 
-    const size = 1024;
+  const size = 1024;
 
-    const fluid = new Fluid(gl, size, size);
-    const brush = new Brush(gl);
-    const obstacleMaps: ObstacleMap[] = [];
-    obstacleMaps["none"] = new ObstacleMap(gl, size, size);
-    obstacleMaps["one"] = new ObstacleMap(gl, size, size);
-    {
-        obstacleMaps["one"].addObstacle([0.015, 0.015], [0.3, 0.5]);
+  const fluid = new Fluid(gl, size, size);
+  const brush = new Brush(gl);
+  const obstacleMap = new ObstacleMap(gl, size, size);
+  Parameters.bind(fluid);
+
+  /* Update the FPS indicator every second. */
+  let instantFPS: number = 0;
+  const updateFpsText = function () {
+    Page.Canvas.setIndicatorText("fps", instantFPS.toFixed(0));
+  };
+  setInterval(updateFpsText, 1000);
+  let lastUpdate = 0;
+  function mainLoop(time: number) {
+    time *= 0.001; //dt is now in seconds
+    let dt = time - lastUpdate;
+    instantFPS = 1 / dt;
+    lastUpdate = time;
+
+    /* If the javascript was paused (tab lost focus), the dt may be too big.
+     * In that case we adjust it so the simulation resumes correctly. */
+    dt = Math.min(dt, 1 / 10);
+
+    /* Updating */
+    if (Parameters.fluid.stream) {
+      fluid.addVel([0.1, 0.5], [0.05, 0.7], [0.04, 0]);
     }
-    obstacleMaps["many"] = new ObstacleMap(gl, size, size);
-    {
-        let radius = [0.17, 0.17];
-        let pos = [0.7, 0.5];
-        obstacleMaps["many"].addObstacle(radius, pos);
+    fluid.update(obstacleMap);
+
+    /* Drawing */
+    FBO.bindDefault(gl);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    if (Parameters.display.velocity) {
+      fluid.drawVelocity();
+    } else if (Parameters.display.pressure) {
+      fluid.drawPressure();
     }
-    Parameters.bind(fluid);
 
-    /* Update the FPS indicator every second. */
-    let instantFPS: number = 0;
-    const updateFpsText = function () {
-        Page.Canvas.setIndicatorText("fps", instantFPS.toFixed(0));
-    };
-    setInterval(updateFpsText, 1000);
-    let lastUpdate = 0;
-    function mainLoop(time: number) {
-        time *= 0.001; //dt is now in seconds
-        let dt = time - lastUpdate;
-        instantFPS = 1 / dt;
-        lastUpdate = time;
+    if (Parameters.display.brush) {
+      brush.draw();
+    }
 
-        /* If the javascript was paused (tab lost focus), the dt may be too big.
-         * In that case we adjust it so the simulation resumes correctly. */
-        dt = Math.min(dt, 1 / 10);
-
-        const obstacleMap: ObstacleMap = obstacleMaps[Parameters.obstacles];
-
-        /* Updating */
-        if (Parameters.fluid.stream) {
-            fluid.addVel([0.1, 0.5], [0.05, 0.2], [0.4, 0]);
-        }
-        fluid.update(obstacleMap);
-
-        /* Drawing */
-        FBO.bindDefault(gl);
-        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-        if (Parameters.display.velocity) {
-            fluid.drawVelocity();
-        } else if (Parameters.display.pressure) {
-            fluid.drawPressure();
-        }
-
-        if (Parameters.display.brush) {
-            brush.draw();
-        }
-
-        if (Parameters.display.obstacles) {
-            obstacleMap.draw(dt);
-        }
-
-        requestAnimationFrame(mainLoop);
+    if (Parameters.display.obstacles) {
+      obstacleMap.draw(
+        dt,
+        Parameters.bladeInfo.bladeCount,
+        Parameters.bladeInfo.radius,
+        Parameters.bladeInfo.centerOffset
+      );
     }
 
     requestAnimationFrame(mainLoop);
+  }
+
+  requestAnimationFrame(mainLoop);
 }
 
 main();

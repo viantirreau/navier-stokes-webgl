@@ -102,13 +102,6 @@ const fluidInfo: FluidInfo = {
     stream: true,
 }
 
-enum ObstaclesInfo {
-    NONE = "none",
-    ONE = "one",
-    MANY = "many",
-}
-let obstaclesInfo: ObstaclesInfo = ObstaclesInfo.NONE;
-
 interface DisplayInfo {
     velocity: boolean,
     pressure: boolean,
@@ -122,18 +115,16 @@ const displayInfo: DisplayInfo = {
     obstacles: true,
 }
 
-interface DebugComponents {
-    c1: number,
-    c2: number,
-    c3: number,
-    c4: number
+interface BladeInfo {
+    radius: number,
+    centerOffset: number,
+    bladeCount: number,
 }
 
-const debugComponents: DebugComponents = {
-    c1: 0.5,
-    c2: 0.0,
-    c3: 0.7,
-    c4: 0.2
+const bladeInfo: BladeInfo = {
+    radius: 0.15,
+    centerOffset: 0.1,
+    bladeCount: 4
 }
 
 function bindControls(fluid: Fluid): void {
@@ -174,16 +165,6 @@ function bindControls(fluid: Fluid): void {
         Page.Checkbox.addObserver(STREAM_CONTROL_ID, updateStream);
         updateStream(Page.Checkbox.isChecked(STREAM_CONTROL_ID));
     }
-    {
-        const OBSTACLES_CONTROL_ID = "obstacles";
-        const updateObstacles = (values: string[]) => {
-            obstaclesInfo = values[0] as ObstaclesInfo;
-
-        };
-        Page.Tabs.addObserver(OBSTACLES_CONTROL_ID, updateObstacles);
-        updateObstacles(Page.Tabs.getValues(OBSTACLES_CONTROL_ID));
-    }
-
     {
         const BRUSH_RADIUS_CONTROL_ID = "brush-radius-range-id";
         const updateBrushRadius = (radius: number) => { brushInfo.radius = radius; };
@@ -230,28 +211,22 @@ function bindControls(fluid: Fluid): void {
         updateDisplayObstacles(Page.Checkbox.isChecked(DISPLAY_OBSTACLES_CONTROL_ID));
     }
     {
-        const DEBUG_COMPONENT_1_CONTROL_ID = "component-1-range-id";
-        const updateComponent1 = (c1: number) => { debugComponents.c1 = c1; };
-        Page.Range.addObserver(DEBUG_COMPONENT_1_CONTROL_ID, updateComponent1);
-        updateComponent1(Page.Range.getValue(DEBUG_COMPONENT_1_CONTROL_ID));
+        const BLADE_RADIUS = "blade-radius";
+        const updateBladeRadius = (r: number) => { bladeInfo.radius = r; };
+        Page.Range.addObserver(BLADE_RADIUS, updateBladeRadius);
+        updateBladeRadius(Page.Range.getValue(BLADE_RADIUS));
     }
     {
-        const DEBUG_COMPONENT_2_CONTROL_ID = "component-2-range-id";
-        const updateComponent2 = (c2: number) => { debugComponents.c2 = c2; };
-        Page.Range.addObserver(DEBUG_COMPONENT_2_CONTROL_ID, updateComponent2);
-        updateComponent2(Page.Range.getValue(DEBUG_COMPONENT_2_CONTROL_ID));
+        const CENTER_OFFSET = "center-offset";
+        const updateCenterOffset = (c: number) => { bladeInfo.centerOffset = c; };
+        Page.Range.addObserver(CENTER_OFFSET, updateCenterOffset);
+        updateCenterOffset(Page.Range.getValue(CENTER_OFFSET));
     }
     {
-        const DEBUG_COMPONENT_3_CONTROL_ID = "component-3-range-id";
-        const updateComponent3 = (c3: number) => { debugComponents.c3 = c3; };
-        Page.Range.addObserver(DEBUG_COMPONENT_3_CONTROL_ID, updateComponent3);
-        updateComponent3(Page.Range.getValue(DEBUG_COMPONENT_3_CONTROL_ID));
-    }
-    {
-        const DEBUG_COMPONENT_4_CONTROL_ID = "component-4-range-id";
-        const updateComponent4 = (c4: number) => { debugComponents.c4 = c4; };
-        Page.Range.addObserver(DEBUG_COMPONENT_4_CONTROL_ID, updateComponent4);
-        updateComponent4(Page.Range.getValue(DEBUG_COMPONENT_4_CONTROL_ID));
+        const BLADE_COUNT = "blade-count";
+        const updateBladeCount = (c: number) => { bladeInfo.bladeCount = c; };
+        Page.Range.addObserver(BLADE_COUNT, updateBladeCount);
+        updateBladeCount(Page.Range.getValue(BLADE_COUNT));
     }
 }
 
@@ -265,7 +240,6 @@ export {
     bind,
     brushInfo as brush,
     displayInfo as display,
-    obstaclesInfo as obstacles,
     fluidInfo as fluid,
-    debugComponents
+    bladeInfo
 };
