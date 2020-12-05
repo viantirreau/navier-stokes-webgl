@@ -1,0 +1,40 @@
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background-color: white;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.hero-body > div > p {
+  color: white;
+	-webkit-text-stroke: 0.3px black;
+}
+
+.title {
+  font-size: 48;
+}
+
+.subtitle {
+  font-size: 24;
+}
+
+.has-bg-img { 
+  background: url('./assets/background.gif') center center;
+  background-size:cover; 
+}
+
+.hero.is-fullheight {
+  min-height: calc(100vh - 3.25rem);
+}
+
+.is-primary {
+  background-color: #009688 !important
+}
