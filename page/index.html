@@ -80,6 +80,19 @@
       type="text/javascript"
       src="https://www.geogebra.org/apps/latest/deployggb.js"
     ></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-M3HXEG7D6F"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-M3HXEG7D6F");
+    </script>
   </head>
 
   <body class="has-navbar-fixed-top">
@@ -361,7 +374,7 @@
                 <div class="content m-5">
                   <p>
                     Si bien la turbina de Savonius es bastante simple, su diseño
-                    es relativametne ineficiente, ya que la paleta que gira en
+                    es relativamente ineficiente, ya que la paleta que gira en
                     contra de la dirección del flujo presenta igualmente una
                     alta resistencia, contrarrestando fuertemente el efecto de
                     la paleta cóncava. Esta ineficiencia se hace más notoria en
@@ -462,9 +475,9 @@
                     Los parámetros descritos anteriormente se conjugan para
                     definir en el factor de potencia (Cₚ), que es un número
                     adimensional que indica cuánta energía disponible del fluido
-                    es extraída. Esta se calcula usando la potencia de la
-                    turbina (P) la masa específica de la turbina(ρ), su área de
-                    la sección transversal de la turbina(A) y la velocidad del
+                    es extraída. Este se calcula usando la potencia de la
+                    turbina (P) la masa específica de la turbina (ρ), su área de
+                    la sección transversal de la turbina (A) y la velocidad del
                     flujo (V).
                   </p>
 
@@ -492,13 +505,20 @@
                     usando su radio (R), la velocidad de entrada a la turbina
                     (V₁) y su velocidad de salida (V₂).
                   </p>
+                  <p>
+                    Como se aprecia en el diagrama de esta sección, las turbinas
+                    Savonius están en el espectro bajo de la eficiencia, según
+                    su coeficiente de potencia Cₚ. Para el caso de turbinas de
+                    viento, las de eje horizontal (HAWT: horizontal axis wind
+                    turbine), son las que tienen el mejor rendimiento.
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div id="content-8" class="my-6">
+        <div id="content-7" class="my-6">
           <div class="columns has-text-centered">
             <div class="column is-full">
               <h2 class="title">¿Cómo calculamos el torque?</h2>
@@ -506,10 +526,7 @@
             </div>
           </div>
         </div>
-      </section>
-
-      <div id="vis" class="my-6 container">
-        <div id="vis-container">
+        <div id="content-7" class="my-6">
           <div class="columns has-text-centered">
             <div class="column is-full">
               <h2 class="title">
@@ -551,19 +568,22 @@
               </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div class="columns">
-            <div class="column has-text-centered">
-              <a
-                class="button is-primary is-large is-rounded"
-                href="docs/index.html"
-              >
-                Ir a la Visualización
-              </a>
-            </div>
+      <!-- Vis Button -->
+      <section id="vis" class="container my-6">
+        <div class="columns">
+          <div class="column has-text-centered">
+            <a
+              class="button is-primary is-large is-rounded"
+              href="docs/index.html"
+            >
+              Ir a la Visualización
+            </a>
           </div>
         </div>
-      </div>
+      </section>
 
       <!-- Footer -->
       <footer class="footer">
@@ -637,5 +657,4 @@
   </body>
 
   <script type="text/javascript" src="./scripts/geogebra.js"></script>
-  <script type="text/javascript" src="./scripts/index.js"></script>
 </html>
