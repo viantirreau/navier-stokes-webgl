@@ -5,7 +5,7 @@
   "description": "Stable fluid simulation running on GPU",
   "scripts": {
     "build-page": "WD=`pwd` && cd / && ts-node-script $WD/src/generate-page.ts",
-    "build": "npm run build-page && npm run webpack",
+    "build": "cp -r docs page/docs && npm run build-page && npm run webpack",
     "clean": "shx rm -rf docs/* **/*generated.*",
     "remove-tmp": "shx rm -rf tmp",
     "rebuild": "npm run clean && npm run build && npm run remove-tmp",

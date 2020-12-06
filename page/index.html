@@ -1,0 +1,538 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>🌊 ICH1104 - Grupo 2 🌊</title>
+    <script
+      src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"
+      type="text/javascript"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    />
+  </head>
+
+  <body class="has-navbar-fixed-top">
+    <div id="bodyContent">
+      <!-- NavBar -->
+      <nav class="navbar is-primary is-fixed-top">
+        <div class="container">
+          <div class="navbar-brand">
+            <a class="navbar-item">
+              <img
+                src="https://caldo.ca/wp-content/uploads/2018/06/PUC-chile-logo.png"
+                alt="Logo"
+              />
+            </a>
+            <span class="navbar-burger burger" data-target="navbarMenu">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </div>
+          <div id="navbarMenu" class="navbar-menu">
+            <div class="navbar-end">
+              <a to="#home" class="navbar-item is-active"> Home </a>
+              <a to="#content" class="navbar-item"> Explicación </a>
+              <a to="#vis" class="navbar-item"> Visualización </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Hero Landing Message -->
+      <section id="home" class="hero has-bg-img is-fullheight">
+        <div class="hero-body">
+          <div class="overlay"></div>
+          <div class="container has-text-centered">
+            <p class="title is-size-4-mobile is-size-2-tablet">
+              Visualización de Turbina Savonius
+            </p>
+            <!-- break -->
+            <p class="subtitle is-size-6-mobile is-size-4-tablet">
+              Proyecto Grupo 1
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="hero-foot is-primary"
+          style="background-color: #00d1b2; height: 3.25rem"
+        ></div>
+      </section>
+
+      <!-- Content -->
+      <section id="content" class="container">
+        <div id="content-1" class="my-6">
+          <div class="columns has-text-centered">
+            <div class="column is-full">
+              <h2 class="title">
+                Chile busca ser carbono neutral para el 2050
+              </h2>
+            </div>
+          </div>
+
+          <div class="columns is-vcentered">
+            <div class="column is-half">
+              <div class="box">
+                <div class="content m-5">
+                  <p>
+                    En el año 2020 se estableció un documento en el cual se
+                    busca una meta clara, ser un país carbono neutral al año
+                    2050.
+                  </p>
+
+                  <p>
+                    Para esto se busca actualizar las medidas para reducir sus
+                    emisiones de gases de efecto invernadero y enfrentar los
+                    impactos del cambio climático.
+                  </p>
+
+                  <p>
+                    Para poner un contexto de lo que se está haciendo
+                    actualmente, el pasado octubre del año 2020, el 61% de la
+                    generación eléctrica inyectada en la matriz chilena provenía
+                    de energías renovables. De lo anterior, es posible notar que
+                    queda un largo camino para llegar meta. Por lo que se
+                    necesitará todo tipo soluciones para ser implementadas en
+                    las próximas tres décadas
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="column is-half">
+              <div class="card">
+                <div message="message-1" class="card-image">
+                  <figure class="image">
+                    <img src="./assets/img_1.png" alt="Placeholder image" />
+                  </figure>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="content-2" class="my-6">
+          <div class="columns has-text-centered">
+            <div class="column is-full">
+              <h2 class="title">El potencial de la energía hidráulica</h2>
+            </div>
+          </div>
+
+          <div class="columns is-vcentered">
+            <div class="column is-half">
+              <div class="card">
+                <div message="message-2" class="card-image">
+                  <figure class="image">
+                    <img src="./assets/img_2.png" alt="Placeholder image" />
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="content">
+                    Turbinas de río.
+                    <br />
+                    <a
+                      href="https://www.dreamstime.com/water-turbine-river-clean-water-water-turbine-river-clean-water-close-up-water-turbine-dirty-river-image163152078"
+                      >Fuente</a
+                    >.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="column is-half">
+              <div class="box">
+                <div class="content m-5">
+                  <p>
+                    En esta misma línea tenemos la energía hidráulica como un
+                    gran candidato para utilizar como energía limpia. No solo es
+                    de bajo costo de producción debido a no tener que pagar por
+                    combustible (por utilizar el agua), si no que se puede
+                    reaccionar mucho más rápido a fluctuaciones en consumo que
+                    las alternativas.
+                  </p>
+
+                  <p>
+                    Una muestra de esto en la actualidad, es que en el mes de
+                    octubre, la energía renovable más utilizada fue esta
+                    alcanzando un tercio de toda la producción energética del
+                    país. Aprovechar la costa de nuestro país es una gran
+                    oportunidad, y se puede hacer de distintas formas, en este
+                    sitio se detalla una en específico la turbina de Savonius,
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="content-3" class="my-6">
+          <div class="columns has-text-centered">
+            <div class="column is-full">
+              <h2 class="title">La turbina de Savonius</h2>
+            </div>
+          </div>
+
+          <div class="columns is-vcentered">
+            <div class="column is-half">
+              <div class="box">
+                <div class="content m-5">
+                  <p>
+                    La turbina de Savonius es una turbina de eje vertical la
+                    cual tiene álabes pegados en su eje los cuales buscan
+                    convertir la energía del viento en torque para rotar el eje
+                    central.
+                  </p>
+
+                  <p>
+                    Esta turbina fue creada en el año 1922 por el ingeniero
+                    finés Sigurd Johannes Savonius, de todas maneras vale
+                    destacar que en Europa se ha estado experimentando con
+                    turbinas similares (de eje vertical y con álabes) desde
+                    mucho antes.
+                  </p>
+
+                  <p>
+                    La turbina de Savonius es de las más simples que hay, la
+                    idea principal es que debido a su forma de “S” un álabe
+                    reciba un mayor arrastre del viento mientras que la otra por
+                    su forma ofrezca una menor resistencia.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="column is-half">
+              <div class="card">
+                <div class="card-image">
+                  <figure class="image">
+                    <img src="./assets/img_3.png" alt="Placeholder image" />
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="content">
+                    Turbina de Savonius de viento.
+                    <br />
+                    Fuente:
+                    <a
+                      href="http://www.diva-portal.org/smash/get/diva2:332441/FULLTEXT01.pdf;fulltext01"
+                    >
+                      Vertical Axis Wind Turbine for Remote Power Generation
+                      Worcester MA, 01609
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="content-4" class="my-6">
+          <div class="columns has-text-centered">
+            <div class="column is-full">
+              <h2 class="title">Aplicaciones en la vida real</h2>
+            </div>
+          </div>
+
+          <div class="columns is-vcentered">
+            <div class="column is-half">
+              <div class="card">
+                <div class="card-image">
+                  <figure class="image">
+                    <img src="./assets/img_4.png" alt="Placeholder image" />
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="content">
+                    Turbina de Savonius de viento.
+                    <br />
+                    <a
+                      href="https://www.archiexpo.com/prod/windside/product-88530-959470.html"
+                      >Fuente</a
+                    >.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="column is-half">
+              <div class="box">
+                <div class="content m-5">
+                  <p>
+                    Si bien la turbina de Savonius es bastante simple también es
+                    bastante ineficiente, ya que depende del arrastre que el
+                    viento pueda ofrecer, estas al estar a alturas bajas pierden
+                    gran parte de su potencial debido a las corrientes lentas
+                    que se dan cerca de la superficie (a diferencia de las
+                    corrientes que mueven las nubes por ejemplo).
+                  </p>
+
+                  <p>
+                    Debido a lo anterior en la práctica a las turbina se les
+                    pone en lugares elevados y con vientos muy fuertes, también
+                    se ha modificado la forma de sus álabes para que estos
+                    aprovechen mejor la energía del viento. Aunque vale destacar
+                    que en realidad las turbinas de Savonius son de las menos
+                    usadas debido a las desventajas ya mencionadas.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="content-5" class="my-6">
+          <div class="columns has-text-centered">
+            <div class="column is-full">
+              <h2 class="title">Variables de una turbina de Savonius</h2>
+            </div>
+          </div>
+
+          <div class="columns is-vcentered">
+            <div class="column is-half">
+              <div class="box">
+                <div class="content m-5">
+                  <p>
+                    Como se puede apreciar en las imágenes se puede variar el
+                    número de álabes que tiene la turbina, se pueden superponer
+                    varios rotores e incluso se puede modificar de distintas
+                    maneras la forma que posee cada álabe.
+                  </p>
+
+                  <p>
+                    Otras variables a tener en consideración son la altura de la
+                    turbina, el radio de los álabes y el espacio central entre
+                    estos (espacio entre el inicio del álabe y el eje del
+                    rotor).
+                  </p>
+
+                  <p>
+                    Todas estas variables influyen en mayor o menor medida a la
+                    eficiencia de la turbina, y justamente esto es lo que busca
+                    visualizar nuestro proyecto.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="column is-half">
+              <div class="card">
+                <div class="card-image">
+                  <figure class="image">
+                    <img src="./assets/img_5.png" alt="Placeholder image" />
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="content">
+                    Turbina de Savonius con distintas configuraciones.
+                    <br />
+                    <a
+                      href="https://scielo.conicyt.cl/scielo.php?script=sci_arttext&pid=S0718-33052015000300009"
+                      >Fuente</a
+                    >.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="content-6" class="my-6">
+          <div class="columns has-text-centered">
+            <div class="column is-full">
+              <h2 class="title">¿Qué tan buena puede ser esta turbina?</h2>
+            </div>
+          </div>
+
+          <div class="columns is-vcentered">
+            <div class="column is-half">
+              <div class="card">
+                <div class="card-image">
+                  <figure class="image">
+                    <img src="./assets/img_6.png" alt="Placeholder image" />
+                  </figure>
+                </div>
+              </div>
+            </div>
+
+            <div class="column is-half">
+              <div class="box">
+                <div class="content m-5">
+                  <p>
+                    Para resolver esta pregunta tenemos que tener en cuenta que
+                    una turbina de Savonius puede variar en distintos
+                    parámetros, tales como la cantidad de aspas que posee, que
+                    tan acercada están a su centro, entre otros factores.
+                  </p>
+
+                  <p>
+                    Todos ellos contribuyen en el factor potencial (Cp), que es
+                    un número adimensional que nos indica cuánta energía
+                    disponible del fluido es extraída. Esta se calcula usando la
+                    potencia de la turbina (P) la masa específica de la
+                    turbina(ro), su área de la sección transversal de la
+                    turbina(A) y la velocidad del flujo (V),
+                  </p>
+
+                  <p>
+                    Se sabe que existe un límite teórico llamado límite de Betz,
+                    que es igual a 0.593. Por lo que lo deseado sería construir
+                    la turbina que se acerque más a este número.
+                  </p>
+
+                  <p>
+                    Para calcular la potencia necesitamos la velocidad angular
+                    de la turbina (omega), y el torque (T) el que se calcula
+                    usando su radio(R), la velocidad de entrada a la turbina
+                    (V1) y su velocidad de salida (V2).
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="content-7" class="my-6">
+          <div class="columns has-text-centered">
+            <div class="column is-full">
+              <h2 class="title">
+                ¡Es momento de crear tu propia turbina de Savonius!
+              </h2>
+            </div>
+          </div>
+
+          <div class="columns is-vcentered">
+            <div class="column is-half">
+              <div class="box">
+                <div class="content m-5">
+                  <p>
+                    Gracias a las tecnologías web de la actualidad este sitio
+                    brinda una aplicación diseñada para un aprendizaje
+                    interactivo, con el que se pueda visualizar cómo el cambio
+                    de parámetros en la turbina influyen en su rotación, y por
+                    como ya se dijo anteriormente, en el factor potencial que
+                    esta turbina prueba brindar.
+                  </p>
+
+                  <p>
+                    Para simular el flujo del fluido se utilizan las ecuaciones
+                    de Navier Stokes, los parámetros como la velocidad de flujo,
+                    cantidad de aspas, radio de separación de las turbinas,
+                    entre otros factores están a disposición en el visualizador
+                    más abajo.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="column is-half">
+              <div class="card">
+                <div class="card-image">
+                  <figure class="image">
+                    <img src="./assets/img_7.png" alt="Placeholder image" />
+                  </figure>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Vis Button -->
+      <section id="vis" class="container my-6">
+        <div class="columns">
+          <div class="column has-text-centered">
+            <a
+              class="button is-primary is-large is-rounded"
+              href="docs/index.html"
+            >
+              Ir a la Visualización
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="content has-text-centered">
+          <p>
+            <strong>Proyecto ICH1104 - 2020-2 </strong> by Victor Tirreau,
+            Felipe Valenzuela, Ignacio Peñafiel y Raúl Álvarez <br />
+            Visualización adaptada de
+            <a href="https://piellardj.github.io/navier-stokes-webgl/">
+              Navier-Stokes
+            </a>
+            by
+            <a href="https://piellardj.github.io/">Jérémie Piellard</a>
+          </p>
+        </div>
+      </footer>
+    </div>
+
+    <div id="messages">
+      <div id="message-1" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+          <article class="message is-success">
+            <div class="message-header">
+              <p>¿Qué tan relevantes es inveritr en energía renovable?</p>
+            </div>
+            <div class="message-body">
+              <p>
+                Un estudio realizado por el Coordinador Eléctrico Nacional,
+                entidad que gestiona la generación energía eléctrica según las
+                necesidades del país, anticipa que la demanda de energía se
+                duplicará en los próximos 20 años. En 2018, la energía que se
+                requirió fue de 70.282 GWh, pero para 2038 será de 128.776 GWh,
+                es decir un 83% más.
+              </p>
+              <br />
+              <p>
+                Considerando que cada vez se tendrá menos combustible fósil, el
+                preocuparnos por invertir en energías se hace cada vez más
+                urgente.
+              </p>
+            </div>
+          </article>
+        </div>
+        <button class="modal-close is-large" aria-label="close"></button>
+      </div>
+
+      <div id="message-2" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+          <article id="message-2" class="message is-success">
+            <div class="message-header">
+              <p>La energía hidráulica es muy barata</p>
+            </div>
+            <div class="message-body">
+              <p>
+                De hecho según estudios publicados por la agencia internacional
+                de energías renovables IRENA, la energía hidráulica se mantiene
+                como la fuente de energía de menor coste del planeta durante el
+                año 2017, con un total de 0.05 dólares estadounidenses por
+                kilowatt, en comparación la energía eólica tuvo un costo de 0.06
+                y la energía solar uno de 0.1
+              </p>
+            </div>
+          </article>
+        </div>
+        <button class="modal-close is-large" aria-label="close"></button>
+      </div>
+    </div>
+  </body>
+
+  <script type="text/javascript" src="./script.js"></script>
+</html>
