@@ -1,0 +1,88 @@
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background-color: white;
+  -ms-overflow-style: none;  
+  scrollbar-width: none;  
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+p {
+  text-justify: distribute;
+}
+
+.hero.is-fullheight {
+  min-height: calc(100vh - 3.25rem);
+}
+
+.hero-body > div > p {
+  color: whitesmoke;
+}
+
+.has-bg-img { 
+  background: url('./assets/background.gif') center center;
+  background-size:cover; 
+}
+
+.title {
+  font-size: 48;
+}
+
+.subtitle {
+  font-size: 24;
+}
+
+.is-primary, .message-header {
+  background-color: #009688 !important
+}
+
+.card-image[message]:hover {
+  border: 4px solid #009688;
+  filter: brightness(50%);
+  transition: all 0.10s;
+}
+
+.hero-body > .overlay {
+  position: absolute;
+  margin: auto 0;
+  background-color: white;
+  border-radius: 25px;
+  opacity: 0.25;
+}
+
+@media only screen and (max-width: 375px) {
+  .hero-body > .overlay {
+    height: 25%;
+    width: 88%;
+    left: 6%;
+  }
+}
+
+@media only screen and (min-width: 375px) {
+  .hero-body > .overlay {
+    height: 25%;
+    width: 90%;
+    left: 5%;
+  }
+}
+
+@media only screen and (min-width: 769px) {
+  .hero-body > .overlay {
+    height: 25%;
+    width: 86%;
+    left: 7%;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .hero-body > .overlay {
+    height: 25%;
+    width: 64%;
+    left: 18%;
+  }
+}
