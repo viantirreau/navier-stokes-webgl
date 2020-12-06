@@ -226,7 +226,6 @@ class ObstacleMap extends GLResource {
       let farTorque = farEdgePressure * farLever;
       totalTorque += (nearTorque + farTorque) * (0.2 * radius);
     }
-    this._hasPrinted += 1;
     // We assume the mass is one
     this._angularVelocity =
       0.995 *
