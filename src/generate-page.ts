@@ -36,11 +36,11 @@ const data = {
             {
               value: "256",
               label: "256",
+              checked: true,
             },
             {
               value: "512",
               label: "512",
-              checked: true,
             },
             {
               value: "1024",
@@ -60,7 +60,7 @@ const data = {
           id: "solver-steps-range-id",
           min: 1,
           max: 99,
-          value: 49,
+          value: 5,
           step: 2,
         },
         {
@@ -69,7 +69,7 @@ const data = {
           id: "timestep-range-id",
           min: 0.01,
           max: 0.05,
-          value: 0.02,
+          value: 0.015,
           step: 0.0005,
         },
         {
@@ -129,7 +129,7 @@ const data = {
           id: "intensity-range-id",
           min: 0.1,
           max: 10,
-          value: 1,
+          value: 1.6,
           step: 0.1,
         },
         {
@@ -154,7 +154,7 @@ const data = {
           title: "Radio álabes",
           id: "blade-radius",
           min: 0,
-          max: 0.3,
+          max: 0.2,
           value: 0.15,
           step: 0.001,
         },
@@ -162,8 +162,8 @@ const data = {
           type: Demopage.supportedControls.Range,
           title: "Espacio central",
           id: "center-offset",
-          min: 0,
-          max: 0.3,
+          min: -0.2,
+          max: 0.05,
           value: 0.1,
           step: 0.001,
         },

@@ -70,9 +70,9 @@
               <div class="control" id="control-resolution">
                 <label>Resolución:</label>
                 <div class="tabs compact" id="resolution-id">
-                  <input type="radio" name="resolution" value="256" id="resolution-256-id" />
+                  <input type="radio" name="resolution" value="256" id="resolution-256-id" checked />
                   <label for="resolution-256-id">256</label>
-                  <input type="radio" name="resolution" value="512" id="resolution-512-id" checked />
+                  <input type="radio" name="resolution" value="512" id="resolution-512-id" />
                   <label for="resolution-512-id">512</label>
                   <input type="radio" name="resolution" value="1024" id="resolution-1024-id" />
                   <label for="resolution-1024-id">1024</label>
@@ -88,14 +88,14 @@
               <div class="control" id="control-solver-steps-range-id">
                 <label>Iteraciones:</label>
                 <div class="range">
-                  <input type="range" min="1" max="99" value="49" step="2" class="slider" id="solver-steps-range-id">
+                  <input type="range" min="1" max="99" value="5" step="2" class="slider" id="solver-steps-range-id">
                   <span class="tooltip"></span>
                 </div>
               </div>
               <div class="control" id="control-timestep-range-id">
                 <label>Delta tiempo:</label>
                 <div class="range">
-                  <input type="range" min="0.01" max="0.05" value="0.02" step="0.0005" class="slider" id="timestep-range-id">
+                  <input type="range" min="0.01" max="0.05" value="0.015" step="0.0005" class="slider" id="timestep-range-id">
                   <span class="tooltip"></span>
                 </div>
               </div>
@@ -174,14 +174,14 @@
               <div class="control" id="control-blade-radius">
                 <label>Radio álabes:</label>
                 <div class="range">
-                  <input type="range" min="0" max="0.3" value="0.15" step="0.001" class="slider" id="blade-radius">
+                  <input type="range" min="0" max="0.2" value="0.15" step="0.001" class="slider" id="blade-radius">
                   <span class="tooltip"></span>
                 </div>
               </div>
               <div class="control" id="control-center-offset">
                 <label>Espacio central:</label>
                 <div class="range">
-                  <input type="range" min="0" max="0.3" value="0.1" step="0.001" class="slider" id="center-offset">
+                  <input type="range" min="-0.2" max="0.05" value="0.1" step="0.001" class="slider" id="center-offset">
                   <span class="tooltip"></span>
                 </div>
               </div>

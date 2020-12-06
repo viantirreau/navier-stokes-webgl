@@ -28,6 +28,8 @@ class Fluid extends GLResource {
   private _substractGradientShader: Shader;
   private _obstaclesVelocityShader: Shader;
 
+  private _pressureSamplerBuffer: WebGLFramebuffer;
+
   public viscosity: number;
   public dx: number;
   public timestep: number;
@@ -41,7 +43,6 @@ class Fluid extends GLResource {
     this.viscosity = 0.0002;
     this.colorIntensity = 0.033;
     this.color = true;
-
     this.reset(width, height);
   }
 
@@ -52,6 +53,8 @@ class Fluid extends GLResource {
 
     this.freeTextures();
     this.freeShaders();
+    if (this._pressureSamplerBuffer)
+      super.gl().deleteFramebuffer(this._pressureSamplerBuffer);
   }
 
   private freeTextures(): void {
@@ -64,6 +67,14 @@ class Fluid extends GLResource {
     gl.deleteTexture(this._tmpTexture);
     gl.deleteTexture(this._pressureTexture);
     gl.deleteTexture(this._divergenceTexture);
+  }
+
+  public get width(): number {
+    return this._width;
+  }
+
+  public get height(): number {
+    return this._height;
   }
 
   private freeShaders(): void {
@@ -84,13 +95,17 @@ class Fluid extends GLResource {
   }
 
   public reset(width: number, height: number): void {
+    let gl = super.gl();
     this.freeGLResources();
+
+    // https://stackoverflow.com/a/13640310
+    this._pressureSamplerBuffer = gl.createFramebuffer();
 
     this._width = width;
     this._height = height;
     this.dx = 1 / Math.min(width, height);
 
-    this._FBO = new FBO(super.gl(), width, height);
+    this._FBO = new FBO(gl, width, height);
 
     this.initTextures();
     this.buildShaders();
@@ -128,7 +143,7 @@ class Fluid extends GLResource {
       const canvasSize = [canvas.clientWidth, canvas.clientHeight];
       const brushSize = [
         Parameters.brush.radius / canvasSize[0],
-        Parameters.brush.radius / canvasSize[1]
+        Parameters.brush.radius / canvasSize[1],
       ];
       const pos = Parameters.mouse.pos;
       const vel = [
@@ -188,6 +203,31 @@ class Fluid extends GLResource {
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
 
+  public samplePressure(): Uint8Array {
+    let gl = this.gl();
+    let pixels = new Uint8Array(this._width * this._height * 4);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, this._pressureSamplerBuffer);
+    gl.framebufferTexture2D(
+      gl.FRAMEBUFFER,
+      gl.COLOR_ATTACHMENT0,
+      gl.TEXTURE_2D,
+      this._pressureTexture,
+      0
+    );
+    gl.readPixels(
+      0,
+      0,
+      this._width,
+      this._height,
+      gl.RGBA,
+      gl.UNSIGNED_BYTE,
+      pixels
+    );
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+
+    return pixels;
+  }
+
   private get currIndex(): number {
     return this._currIndex;
   }
@@ -204,7 +244,9 @@ class Fluid extends GLResource {
     const gl = this.gl();
     const obstacleVelocityShader = this._obstaclesVelocityShader;
 
-    obstacleVelocityShader.u["uVelocities"].value = this._velTextures[this.currIndex];
+    obstacleVelocityShader.u["uVelocities"].value = this._velTextures[
+      this.currIndex
+    ];
     obstacleVelocityShader.u["uObstacles"].value = obstacleMap.texture;
     obstacleVelocityShader.u["uTexelSize"].value = this.texelSize;
     // obstacleVelocityShader.u["rot"].value = 0.0001 * performance.now();
@@ -238,7 +280,7 @@ class Fluid extends GLResource {
 
   private computeDivergence(): void {
     const gl = this.gl();
-    const divergenceShader = this._divergenceShader
+    const divergenceShader = this._divergenceShader;
 
     divergenceShader.u["uTexelSize"].value = this.texelSize;
     divergenceShader.u["uVelocity"].value = this._velTextures[this.currIndex];
@@ -253,8 +295,8 @@ class Fluid extends GLResource {
 
   private computePressure(obstacleMap: ObstacleMap): void {
     const gl = this.gl();
-    const jacobiPressureShader = this._jacobiPressureShader
-    const alpha = -.5 * this.dx;
+    const jacobiPressureShader = this._jacobiPressureShader;
+    const alpha = -0.5 * this.dx;
     const beta = 4;
     const dst = this._pressureTexture;
     const cstTerm = this._divergenceTexture;
@@ -272,7 +314,8 @@ class Fluid extends GLResource {
 
     jacobiPressureShader.use();
     jacobiPressureShader.bindAttributes();
-    for (let i = 0; i < this._nbIterations; ++i) { //nb iterations must be odd
+    for (let i = 0; i < this._nbIterations; ++i) {
+      //nb iterations must be odd
       jacobiPressureShader.u["uPrevIter"].value = textures[index];
 
       this._FBO.bind([textures[(index + 1) % 2]]);
@@ -286,7 +329,9 @@ class Fluid extends GLResource {
   private substractPressureGradient(): void {
     const gl = this.gl();
     const substractGradientShader = this._substractGradientShader;
-    substractGradientShader.u["uVelocities"].value = this._velTextures[this.currIndex];
+    substractGradientShader.u["uVelocities"].value = this._velTextures[
+      this.currIndex
+    ];
     substractGradientShader.u["uPressure"].value = this._pressureTexture;
     substractGradientShader.u["uTexelSize"].value = this.texelSize;
     substractGradientShader.u["uHalfInvDx"].value = 0.5 / this.dx;
@@ -323,23 +368,41 @@ class Fluid extends GLResource {
     }
     const uintData = new Uint8Array(uintTexels);
 
-    const velFormat = (this._useFloatTextures) ? gl.FLOAT : gl.UNSIGNED_BYTE;
-    const velData = (this._useFloatTextures) ? floatData : uintData;
+    const velFormat = this._useFloatTextures ? gl.FLOAT : gl.UNSIGNED_BYTE;
+    const velData = this._useFloatTextures ? floatData : uintData;
 
     let textures: WebGLTexture[] = [];
     for (let i = 0; i < 2; ++i) {
       let texture = gl.createTexture();
       gl.bindTexture(gl.TEXTURE_2D, texture);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0,
-        gl.RGBA, velFormat, velData);
+      gl.texImage2D(
+        gl.TEXTURE_2D,
+        0,
+        gl.RGBA,
+        width,
+        height,
+        0,
+        gl.RGBA,
+        velFormat,
+        velData
+      );
       textures.push(texture);
     }
 
     for (let i = 0; i < 3; ++i) {
       let texture = gl.createTexture();
       gl.bindTexture(gl.TEXTURE_2D, texture);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0,
-        gl.RGBA, gl.UNSIGNED_BYTE, uintData);
+      gl.texImage2D(
+        gl.TEXTURE_2D,
+        0,
+        gl.RGBA,
+        width,
+        height,
+        0,
+        gl.RGBA,
+        gl.UNSIGNED_BYTE,
+        uintData
+      );
       textures.push(texture);
     }
 
@@ -369,8 +432,12 @@ class Fluid extends GLResource {
     this._advectShader = FluidShaders.buildAdvectShader(gl);
     this._jacobiPressureShader = FluidShaders.buildJacobiPressureShader(gl);
     this._divergenceShader = FluidShaders.buildDivergenceShader(gl);
-    this._substractGradientShader = FluidShaders.buildSubstractGradientShader(gl);
-    this._obstaclesVelocityShader = FluidShaders.buildObstaclesVelocityShader(gl);
+    this._substractGradientShader = FluidShaders.buildSubstractGradientShader(
+      gl
+    );
+    this._obstaclesVelocityShader = FluidShaders.buildObstaclesVelocityShader(
+      gl
+    );
   }
 }
 

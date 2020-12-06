@@ -2,8 +2,7 @@ import Shader from "../gl-utils/shader";
 import VBO from "../gl-utils/vbo";
 import { ShaderSrc, Replace } from "./build-shaders";
 
-const encodingStr =
-  `vec4 encodeObstacle(vec2 normal) {
+const encodingStr = `vec4 encodeObstacle(vec2 normal) {
   normal = clamp(normalize(normal), -1.0, 1.0);
   return vec4(0.5 * normal + 0.5, 0, 0);
 }
@@ -11,8 +10,7 @@ vec2 decodeObstacle(vec4 texel) {
   return 2.0 * texel.rg - 1.0;
 }`;
 
-const drawVert =
-  `attribute vec2 aCorner; //{0,1}x{0,1}
+const drawVert = `attribute vec2 aCorner; //{0,1}x{0,1}
 varying vec2 sampleCoords;
 
 void main(void) {
@@ -20,8 +18,7 @@ void main(void) {
     gl_Position = vec4(2.0*aCorner - 1.0, 0.0, 1.0);
 }`;
 
-const drawFrag =
-  `precision mediump float;
+const drawFrag = `precision mediump float;
 
 uniform sampler2D uObstacles;
 varying vec2 sampleCoords;
@@ -35,23 +32,19 @@ void main(void) {
     gl_FragColor = vec4(1, 1, 1, 0);
 }`;
 
-const addObstacleVert =
-  `uniform vec2 uSize;  // relative, in [0,1] x [0,1]
+const addObstacleVert = `uniform vec2 uSize;  // relative, in [0,1] x [0,1]
 uniform vec2 uPos;      // relative, in [0,1] x [0,1]
 attribute vec2 aCorner; // in {-1,+1}x{-1,+1}
 varying vec2 toCenter;
-uniform float rot;
-uniform float offset;
-mat2 rotation = mat2(cos(rot), -sin(rot), sin(rot), cos(rot));
-mat2 rotationOff = mat2(cos(offset), -sin(offset), sin(offset), cos(offset));
+uniform float uFaceOffset; // Offset so that all the blades face the same direction
+mat2 faceRot = mat2(cos(uFaceOffset), -sin(uFaceOffset), sin(uFaceOffset), cos(uFaceOffset));
 void main(void) {
     toCenter = -aCorner;
-    vec2 pos =  rotation * (uPos + rotationOff*(aCorner * uSize) - 0.5) + 0.5;
+    vec2 pos =  uPos + faceRot*(aCorner * uSize);
     gl_Position = vec4(2.0 * pos - 1.0, 0, 1);
 }`;
 
-const addObstacleFrag =
-  `precision mediump float;
+const addObstacleFrag = `precision mediump float;
   
 varying vec2 toCenter;
 varying vec2 cornerPos[4];
@@ -66,9 +59,7 @@ void main(void) {
   vec2 normal = -toCenter / (dist);
   gl_FragColor = encodeObstacle(normal);
 
-  // if (dist > 1.0 || gl_FragCoord.x < 512. || gl_FragCoord.y < 512.)
 }`;
-
 
 const includes: Replace[] = [
   { toReplace: "___ENCODING___", replacement: encodingStr },
@@ -79,7 +70,6 @@ drawSrc.batchReplace(includes);
 
 const addSrc = new ShaderSrc(addObstacleVert, addObstacleFrag);
 addSrc.batchReplace(includes);
-
 
 function buildDrawShader(gl: WebGLRenderingContext): Shader {
   const shader = new Shader(gl, drawSrc.vert, drawSrc.frag);
