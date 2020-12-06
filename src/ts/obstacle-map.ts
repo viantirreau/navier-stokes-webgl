@@ -25,7 +25,6 @@ class ObstacleMap extends GLResource {
   private _drawShader: Shader;
   private _addShader: Shader;
 
-  private _hasPrinted: number;
   private _texelData: Uint8Array;
   private _angularVelocity: number;
   private _angularPosition: number;
@@ -44,7 +43,6 @@ class ObstacleMap extends GLResource {
     this._addShader = ObstacleMapShaders.buildAddShader(gl);
 
     this.initObstaclesMap();
-    this._hasPrinted = 0;
     this._angularVelocity = 0;
     this._currentBladeCount = 0;
     this._currentBladesInfo = [];
@@ -78,11 +76,6 @@ class ObstacleMap extends GLResource {
     drawShader.use();
     drawShader.bindUniformsAndAttributes();
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-
-    // if (this._hasPrinted < 15) {
-    //   console.log(addShader.u["rot"].value);
-    //   this._hasPrinted++;
-    // }
   }
 
   public update(
@@ -160,9 +153,6 @@ class ObstacleMap extends GLResource {
     for (const blade of this._currentBladesInfo) {
       const startAngle = 3.14159265 - blade.faceOffset;
       const stopAngle = 6.283185307 - blade.faceOffset;
-      if (this._hasPrinted == 400) {
-        console.log(blade);
-      }
       let { x, y, radius, turbineCenterToBladeCenter: tcbc } = blade;
       // Sample the pressure along the inner (0.8 r) and outer face (1.0 r)
       // We allow for a tolerance, just in case the boundary conditions
@@ -202,9 +192,6 @@ class ObstacleMap extends GLResource {
           (innerPressure * innerRadius - outerPressure * outerRadius) *
           leverArm *
           dTheta;
-        // if (this._hasPrinted == 400) {
-        //   console.log(torqueContribution);
-        // }
       }
       // Sample the pressure at the center of the blade tip (r = 0.9)
       let tipCenter = 0.9 * radius;
