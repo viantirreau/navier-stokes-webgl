@@ -17,14 +17,13 @@ $(document).ready(() => {
       $(".navbar-menu").toggleClass("is-active");
   });
 
-  const buttons = $(".navbar-menu > div > a")
-  buttons.each((_, button) => {
+  const navButtons = $(".navbar-menu > div > a")
+  navButtons.each((_, button) => {
     const to = $(button).attr("to")
 
     $(button).click((event) => {
       event.preventDefault()
 
-      // toggleButtons(buttons, to)
       window.scroll({
         top: $(to).position().top - $("nav").height(),
         left: 0,
@@ -37,11 +36,20 @@ $(document).ready(() => {
       const scrollPosTest = $(to).position().top - $("nav").height() - 1;
   
       if (yScrollPos > scrollPosTest || $(window).scrollTop() + window.innerHeight === $(document).height()) {
-        toggleButtons(buttons, to)
+        toggleButtons(navButtons, to)
       }
   });
   })
 
+  const images = $(".card-image")
+  images.each((_, image) => {
+    const message = $("#" + $(image).attr("message"))
 
+    if (message.length) {
+      $(image).click(() => message.addClass("is-active"))
+    }; 
+  })
+
+  $(".modal > .modal-background").click((event) => $(event.target).parent().removeClass("is-active"))
+  $(".modal > button").click((event) => $(event.target).parent().removeClass("is-active"))
 });
-
