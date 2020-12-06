@@ -8,7 +8,7 @@ const toggleButtons = (buttons, id) => {
   })
 }
 
-$(document).ready(() => {
+setTimeout(() => $(document).ready(() => {
   // Check for click events on the navbar burger icon
   $(".navbar-burger").click(() => {
 
@@ -35,7 +35,7 @@ $(document).ready(() => {
       const yScrollPos = window.pageYOffset;
       const scrollPosTest = $(to).position().top - $("nav").height() - 1;
   
-      if (yScrollPos > scrollPosTest || $(window).scrollTop() + window.innerHeight === $(document).height()) {
+      if (yScrollPos > scrollPosTest) {
         toggleButtons(navButtons, to)
       }
   });
@@ -52,4 +52,4 @@ $(document).ready(() => {
 
   $(".modal > .modal-background").click((event) => $(event.target).parent().removeClass("is-active"))
   $(".modal > button").click((event) => $(event.target).parent().removeClass("is-active"))
-});
+}), 1000)
