@@ -24,12 +24,12 @@ function initGL(canvas: HTMLCanvasElement, flags: any): WebGLRenderingContext {
       flags
     ) as WebGLRenderingContext;
     if (!gl) {
-      setError("Your browser or device does not seem to support WebGL.");
+      setError("Tu navegador o dispositivo no parece soportar WebGL 😢");
       return null;
     }
     setError(
-      "Your browser or device only supports experimental WebGL.\n" +
-        "The simulation may not run as expected."
+      "Tu navegador o dispositivo solo soporta una versión experimental de WebGL.\n" +
+        "La simulación puede tener un comportamiento inesperado."
     );
   }
 
