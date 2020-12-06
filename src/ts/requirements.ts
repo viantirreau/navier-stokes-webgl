@@ -8,14 +8,16 @@ function check(gl: WebGLRenderingContext): boolean {
   // return false;
   // }
 
-  function setError(message: string) {
-    Page.Demopage.setErrorMessage("webgl-requirements", message);
-  }
-
-  const mediump = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.MEDIUM_FLOAT);
+  const mediump = gl.getShaderPrecisionFormat(
+    gl.FRAGMENT_SHADER,
+    gl.MEDIUM_FLOAT
+  );
   if (mediump.precision < 23) {
-    Page.Demopage.setErrorMessage("webgl-requirements", "Your device only supports low precision float in fragment shader.\n" +
-      "The simulation will not run.");
+    Page.Demopage.setErrorMessage(
+      "webgl-requirements",
+      "Tu dispositivo solo soporta texturas de baja precisión.\n" +
+        "La simulación no se puede ejecutar 😢."
+    );
     return false;
   }
 
@@ -30,12 +32,14 @@ function loadExtensions(gl: WebGLRenderingContext, extensions: string[]) {
   let i = 0;
   for (let ext of extensions) {
     if (!gl.getExtension(ext)) {
-      Page.Demopage.setErrorMessage("no-ext" + i, "Cannot load WebGL extension '" + ext + "'.");
+      Page.Demopage.setErrorMessage(
+        "no-ext" + i,
+        "¡Oh! No pudimos cargar la extensión WebGL '" + ext + "'."
+      );
       allExtensionsLoaded = false;
     }
     ++i;
   }
 }
-
 
 export { check, loadExtensions, allExtensionsLoaded };
