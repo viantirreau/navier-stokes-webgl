@@ -3,8 +3,8 @@ import VBO from "../gl-utils/vbo";
 import { ShaderSrc } from "./build-shaders";
 import { encodingStr as encodingObstaclesStr } from "./obstacle-map-shaders";
 
-const rawEncodingStr =
-  `const float MAX_SPEED = 1.0;
+const rawEncodingStr = `
+const float MAX_SPEED = 1.0;
 const float SPEED_BANDWIDTH = 2.01 * MAX_SPEED;
 
 const float MIN_DIVERGENCE = -4.0 * MAX_SPEED;
@@ -69,16 +69,14 @@ ___ENCODING_VELOCITY___
 
 ___ENCODING_OBSTACLES___`;
 
-const encodingVelocityFloatStr =
-  `vec4 encodeVelocity(vec2 vel) {
+const encodingVelocityFloatStr = `vec4 encodeVelocity(vec2 vel) {
     return vec4(vel, 0, 0);
 }
 vec2 decodeVelocity(vec4 texel) {
     return texel.rg;
 }`;
 
-const encodingVelocityNoFloatStr =
-  `vec4 encodeVelocity(vec2 vel) {
+const encodingVelocityNoFloatStr = `vec4 encodeVelocity(vec2 vel) {
     vel = 0.5 * (vel / MAX_SPEED + 1.0);
     return vec4(encode16bit(vel.x), encode16bit(vel.y));
 }
@@ -87,8 +85,7 @@ vec2 decodeVelocity(vec4 texel) {
     return (2.0 * vel - 1.0) * MAX_SPEED;
 }`;
 
-const addVelVert =
-  `uniform vec2 uBrushSize; //relative, in [0,1]x[0,1]
+const addVelVert = `uniform vec2 uBrushSize; //relative, in [0,1]x[0,1]
 uniform vec2 uBrushPos; //relative, in [0,1]x[0,1]
 
 attribute vec2 aCorner; //{0,1}x{0,1}
@@ -103,8 +100,7 @@ void main(void) {
     gl_Position = vec4(2.0*aCorner - 1.0, 0.0, 1.0);
 }`;
 
-const addVelFrag =
-  `precision mediump float;
+const addVelFrag = `precision mediump float;
 
 uniform sampler2D uVel;
 
@@ -127,8 +123,7 @@ void main(void) {
     gl_FragColor = encodeVelocity(vel);
 }`;
 
-const fullscreenVert =
-  `attribute vec2 aCorner; //{0,1}x{0,1}
+const fullscreenVert = `attribute vec2 aCorner; //{0,1}x{0,1}
 
 varying vec2 sampleCoords;
 
@@ -137,8 +132,7 @@ void main(void) {
     gl_Position = vec4(2.0*aCorner - 1.0, 0.0, 1.0);
 }`;
 
-const advectFrag =
-  `precision mediump float;
+const advectFrag = `precision mediump float;
 
 uniform sampler2D uQuantity; //thing to advect
 uniform sampler2D uVel;
@@ -156,8 +150,7 @@ void main(void) {
     gl_FragColor = texture2D(uQuantity, pos);
 }`;
 
-const jacobiPressureFrag =
-  `precision mediump float;
+const jacobiPressureFrag = `precision mediump float;
 
 uniform sampler2D uPrevIter; //x
 uniform sampler2D uConstantTerm; //b
@@ -165,7 +158,6 @@ uniform sampler2D uObstacles;
 
 uniform float uAlpha;
 uniform float uInvBeta;
-// uniform float rot;
 
 uniform vec2 uTexelSize;
 
@@ -174,8 +166,6 @@ varying vec2 sampleCoords;
 ___ENCODING___
 
 void main(void) {
-    // mat2 rotation = mat2(cos(rot), -sin(rot), sin(rot), cos(rot));
-    // vec2 obstacle = decodeObstacle(texture2D(uObstacles,  rotation * (sampleCoords - vec2(0.5, 0.5)) + vec2(0.5, 0.5)));
     vec2 obstacle = decodeObstacle(texture2D(uObstacles,  sampleCoords));
     vec2 coords = sampleCoords + uTexelSize * obstacle;
 
@@ -191,8 +181,7 @@ void main(void) {
     gl_FragColor = encodePressure(result);
 }`;
 
-const divergenceFrag =
-  `precision mediump float;
+const divergenceFrag = `precision mediump float;
 
 uniform sampler2D uVelocity;
 
@@ -214,8 +203,7 @@ void main(void) {
     gl_FragColor = encodeDivergence(div);
 }`;
 
-const substractGradientFrag =
-  `precision mediump float;
+const substractGradientFrag = `precision mediump float;
 
 uniform sampler2D uVelocities;
 uniform sampler2D uPressure;
@@ -242,21 +230,17 @@ void main(void) {
     gl_FragColor = encodeVelocity(divFreeVel);
 }`;
 
-const obstacleVelocityFrag =
-  `precision mediump float;
+const obstacleVelocityFrag = `precision mediump float;
 
 uniform sampler2D uVelocities;
 uniform sampler2D uObstacles;
 uniform vec2 uTexelSize;
-// uniform float rot;
 
 varying vec2 sampleCoords;
 
 ___ENCODING___
 
 void main(void) {
-    // mat2 rotation = mat2(cos(rot), -sin(rot), sin(rot), cos(rot));
-    // vec2 obstacle = decodeObstacle(texture2D(uObstacles,  rotation * (sampleCoords - vec2(0.5, 0.5)) + vec2(0.5, 0.5)));
     vec2 obstacle = decodeObstacle(texture2D(uObstacles,  sampleCoords));
     vec2 coords = sampleCoords + obstacle * uTexelSize;
 
@@ -266,8 +250,7 @@ void main(void) {
     gl_FragColor = encodeVelocity(vel);
 }`;
 
-const drawVelocityFrag =
-  `precision mediump float;
+const drawVelocityFrag = `precision mediump float;
 
 uniform sampler2D uVel;
 uniform float uColorIntensity;
@@ -307,8 +290,7 @@ void main(void) {
     gl_FragColor = vec4(intensity * c, 1);
 }`;
 
-const drawPressureFrag =
-  `precision mediump float;
+const drawPressureFrag = `precision mediump float;
 
 uniform sampler2D uPressure;
 uniform float uColorIntensity;
@@ -344,9 +326,14 @@ let encodingStr: string = rawEncodingStr;
 setUseFloatTextures(false);
 
 function setUseFloatTextures(useFloat: boolean): void {
-  const replace = (useFloat) ? encodingVelocityFloatStr : encodingVelocityNoFloatStr;
+  const replace = useFloat
+    ? encodingVelocityFloatStr
+    : encodingVelocityNoFloatStr;
   encodingStr = rawEncodingStr.replace(/___ENCODING_VELOCITY___/g, replace);
-  encodingStr = encodingStr.replace(/___ENCODING_OBSTACLES___/g, encodingObstaclesStr);
+  encodingStr = encodingStr.replace(
+    /___ENCODING_OBSTACLES___/g,
+    encodingObstaclesStr
+  );
 }
 
 const drawVelocitySrc = new ShaderSrc(fullscreenVert, drawVelocityFrag);
@@ -355,10 +342,19 @@ const addVelSrc = new ShaderSrc(addVelVert, addVelFrag);
 const advectSrc = new ShaderSrc(fullscreenVert, advectFrag);
 const jacobiPressureSrc = new ShaderSrc(fullscreenVert, jacobiPressureFrag);
 const divergenceSrc = new ShaderSrc(fullscreenVert, divergenceFrag);
-const substractGradientSrc = new ShaderSrc(fullscreenVert, substractGradientFrag);
-const obstaclesVelocitySrc = new ShaderSrc(fullscreenVert, obstacleVelocityFrag);
+const substractGradientSrc = new ShaderSrc(
+  fullscreenVert,
+  substractGradientFrag
+);
+const obstaclesVelocitySrc = new ShaderSrc(
+  fullscreenVert,
+  obstacleVelocityFrag
+);
 
-function buildFullscreenShader(gl: WebGLRenderingContext, src: ShaderSrc): Shader {
+function buildFullscreenShader(
+  gl: WebGLRenderingContext,
+  src: ShaderSrc
+): Shader {
   const vertSrc = src.vert;
   let fragSrc = src.frag.replace(/___ENCODING___/g, encodingStr);
 

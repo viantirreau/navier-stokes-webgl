@@ -78,6 +78,15 @@ const data = {
           id: "stream-checkbox-id",
           checked: true,
         },
+        {
+          type: Demopage.supportedControls.Range,
+          title: "Alto del flujo",
+          id: "source-height-id",
+          min: 0.1,
+          max: 0.7,
+          value: 0.4,
+          step: 0.0005,
+        },
       ],
     },
     {

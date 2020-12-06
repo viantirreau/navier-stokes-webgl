@@ -157,16 +157,16 @@ class ObstacleMap extends GLResource {
       if (this._hasPrinted == 400) {
         console.log(blade);
       }
+      let { x, y, radius, turbineCenterToBladeCenter: tcbc } = blade;
+      // Sample the pressure along the inner (0.8 r) and outer face (1.0 r)
+      // We allow for a tolerance, just in case the boundary conditions
+      // are not precise enough.
+      let innerRadius = 0.79 * radius;
+      let outerRadius = 1.01 * radius;
       // Sample the pressure `samplePoints` times
       for (let angle = startAngle; angle < stopAngle; angle += dTheta) {
         let sin = Math.sin(angle);
         let cos = Math.cos(angle);
-        let { x, y, radius, turbineCenterToBladeCenter: tcbc } = blade;
-        // Sample the pressure along the inner (0.8 r) and outer face (1.0 r)
-        // We allow for a tolerance, just in case the boundary conditions
-        // are not precise enough.
-        let innerRadius = 0.79 * radius;
-        let outerRadius = 1.01 * radius;
         // Convert the relative positions [0,1]x[0,1] => [0,width]x[0,height]
         let innerXPixel = Math.floor(shaderWidth * (x + innerRadius * cos));
         let innerYPixel = Math.floor(shaderHeight * (y + innerRadius * sin));
@@ -200,11 +200,46 @@ class ObstacleMap extends GLResource {
         //   console.log(torqueContribution);
         // }
       }
+      // Sample the pressure at the center of the blade tip (r = 0.9)
+      let tipCenter = 0.9 * radius;
+      // Find the coordinates for each tip center
+      let nearEdgeX = Math.floor(
+        shaderWidth * (x + tipCenter * Math.cos(startAngle))
+      );
+      let nearEdgeY = Math.floor(
+        shaderHeight * (y + tipCenter * Math.sin(startAngle))
+      );
+      let farEdgeX = Math.floor(
+        shaderWidth * (x + tipCenter * Math.cos(stopAngle))
+      );
+      let farEdgeY = Math.floor(
+        shaderHeight * (y + tipCenter * Math.sin(stopAngle))
+      );
+      // Find the index in the pressure array
+      let nearEdgeArrayIndex = 4 * (shaderWidth * nearEdgeY + nearEdgeX);
+      let farEdgeArrayIndex = 4 * (shaderWidth * farEdgeY + farEdgeX);
+      // Interpret pressure as float
+      let nearEdgePressure = this.parsePressure(
+        pressureSample.slice(nearEdgeArrayIndex, nearEdgeArrayIndex + 4)
+      );
+      let farEdgePressure = this.parsePressure(
+        pressureSample.slice(farEdgeArrayIndex, farEdgeArrayIndex + 4)
+      );
+      // Both pressures contribute to a positive torque, but they differ in the lever arm
+      let nearLever = tcbc - tipCenter;
+      let farLever = tcbc + tipCenter;
+      // P * A * r = F * r  = T (the force is perpendicular to the lever arm)
+      let nearTorque = nearEdgePressure * nearLever;
+      let farTorque = farEdgePressure * farLever;
+      totalTorque += (nearTorque + farTorque) * (0.2 * radius);
     }
     this._hasPrinted += 1;
     // We assume the mass is one
     this._angularVelocity = Math.max(
-      Math.min(this._angularVelocity + totalTorque, MAX_ANGULAR_VELOCITY),
+      Math.min(
+        this._angularVelocity + 0.05 * totalTorque,
+        MAX_ANGULAR_VELOCITY
+      ),
       -MAX_ANGULAR_VELOCITY
     );
   }

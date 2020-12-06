@@ -89,7 +89,12 @@ function main() {
 
     /* Updating */
     if (Parameters.fluid.stream) {
-      fluid.addVel([0.1, 0.5], [0.05, 0.7], [0.04, 0]);
+      // [xCenter, yCenter], [width, height], [uSpeed, vSpeed]
+      fluid.addVel(
+        [0.1, 0.85 - 0.5 * Parameters.fluid.streamHeight],
+        [0.05, Parameters.fluid.streamHeight],
+        [0.04, 0]
+      );
     }
     fluid.update(obstacleMap);
 
