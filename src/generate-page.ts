@@ -3,19 +3,28 @@ import * as path from "path";
 import { Demopage } from "webpage-templates";
 
 const data = {
-  title: "Navier-Stokes",
-  description: "Stable fluid simulation running on GPU",
+  title: "Turbina Savonius en WebGL",
+  description: "Simulación de una turbina Savonius en GPU",
   introduction: [
-    "This project is a WebGL incompressible fluid simulation running entirely on your GPU. You can interact with the fluid with the left mouse button and visualize both the velocity and the pressure of the fluid.",
-    "This is an implementation of the Stable Fluid described by J. Stam.",
+    "Este proyecto es una simulación de un fluido incompresible en WebGL que se ejecuta completamente en tu GPU. Puedes interactuar con el fluido y editar los parámetros de la turbina, además de visualizar el campo de presión o velocidad.",
+    "Es una implementación del paper Stable Fluids, descrito por J. Stam en 1999. Gran parte del código base se inspira en el proyecto <b>navier-stokes-webgl</b> de Jérémie Piellard (@piellardj).",
   ],
   githubProjectName: "navier-stokes-webgl",
-  additionalLinks: [],
+  additionalLinks: [
+    {
+      href: "https://github.com/piellardj/navier-stokes-webgl",
+      text: "Proyecto original @piellardj",
+    },
+  ],
   scriptFiles: ["script/main.js"],
   indicators: [
     {
       id: "fps",
       label: "FPS",
+    },
+    {
+      id: "power",
+      label: "P",
     },
   ],
   canvas: {

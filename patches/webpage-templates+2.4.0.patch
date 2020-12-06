@@ -1,0 +1,601 @@
+diff --git a/node_modules/webpage-templates/app/components/demopage/header/style.scss b/node_modules/webpage-templates/app/components/demopage/header/style.scss
+index cfdf4b3..4d543bd 100644
+--- a/node_modules/webpage-templates/app/components/demopage/header/style.scss
++++ b/node_modules/webpage-templates/app/components/demopage/header/style.scss
+@@ -45,7 +45,7 @@ header {
+         color: $color-medium;
+         font-weight: normal;
+         line-height: $logo-size;
+-        content: 'home';
++        content: 'volver';
+         z-index: 1;
+     }
+ 
+diff --git a/node_modules/webpage-templates/app/components/demopage/header/template.ejs b/node_modules/webpage-templates/app/components/demopage/header/template.ejs
+index 4e149fd..dd5c36a 100644
+--- a/node_modules/webpage-templates/app/components/demopage/header/template.ejs
++++ b/node_modules/webpage-templates/app/components/demopage/header/template.ejs
+@@ -1,3 +1,3 @@
+ <header>
+-    <a class="logo" href="https://piellardj.github.io"></a>
++    <a class="logo" href="/"></a>
+ </header>
+\ No newline at end of file
+diff --git a/node_modules/webpage-templates/app/components/demopage/intro/template.ejs b/node_modules/webpage-templates/app/components/demopage/intro/template.ejs
+index f163686..a04529e 100644
+--- a/node_modules/webpage-templates/app/components/demopage/intro/template.ejs
++++ b/node_modules/webpage-templates/app/components/demopage/intro/template.ejs
+@@ -6,14 +6,14 @@
+ 
+         <br>
+ 
+-        #include('link', {href: "https://github.com/piellardj/" + githubProjectName, text: "More on GitHub"})
++        #include('link', {href: "https://github.com/viantirreau/" + githubProjectName, text: "Ver en GitHub"})
+ 
+         # if (typeof additionalLinks !== "undefined" && additionalLinks.length > 0) {
+-            <br/>
+-            # for (let link of additionalLinks) {
+-                <br/>
+-                #include('link', link)
+-            # }
++        <br />
++        # for (let link of additionalLinks) {
++        <br />
++        #include('link', link)
++        # }
+         # }
+     </div>
+ </div>
+\ No newline at end of file
+diff --git a/node_modules/webpage-templates/app/components/footer/template.ejs b/node_modules/webpage-templates/app/components/footer/template.ejs
+index b013fd8..e5be087 100644
+--- a/node_modules/webpage-templates/app/components/footer/template.ejs
++++ b/node_modules/webpage-templates/app/components/footer/template.ejs
+@@ -1,23 +1,10 @@
+ <footer>
+     <div class="badge-shelf">
+-        <a class="badge" href="mailto:jeremie.piellard@gmail.com" title="Email">
+-        <svg xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" viewBox="0 0 512 512">
+-            <path d="M512 85V448H0V85l256 224L512 85zM488 64H24L256 267 488 64z" />
+-        </svg>
+-        </a>
+-    
+-        <a class="badge" href="https://github.com/piellardj" title="GitHub">
+-        <svg xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" viewBox="0 0 1024 1024">
+-            <path d="M512 0C229 0 0 229 0 512c0 226 147 418 350 486 26 5 35-11 35-25 0-12 0-53-1-95C242 909 212 818 212 818c-23-59-57-75-57-75-47-32 4-31 4-31 51 4 78 53 78 53 46 78 120 56 149 43 5-33 18-56 33-68C305 725 185 682 185 485c0-56 20-102 53-137-5-13-23-65 5-136 0 0 43-14 141 53 41-11 85-17 128-17 44 0 87 6 128 17 98-66 141-52 141-52 28 71 10 123 5 136 33 36 53 81 53 137 0 197-120 240-234 253 18 16 35 47 35 95 0 68-1 124-1 141 0 14 9 30 35 25C877 930 1024 738 1024 512 1024 229 795 0 512 0z" />
+-        </svg>
+-        </a>
+-    
+-        <a class="badge" href="https://www.linkedin.com/in/jeremie-piellard/" title="LinkedIn">
+-        <svg xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" viewBox="0 0 512 512">
+-            <path d="M30 177l93-1v304l-93 1v-304z" />
+-            <path d="M200 177l89-1v39l0 11c26-26 53-45 97-45 51 0 100 21 100 91v208l-90 1v-159c0-35-9-58-51-58-37 0-52 7-52 55v160l-92 1v-304z" />
+-            <path d="M128 81c0 28-23 51-51 51s-51-23-51-51c0-28 23-51 51-51 28 0 51 23 51 51z" />
+-        </svg>
++        <a class="badge" href="https://github.com/viantirreau/navier-stokes-webgl" title="GitHub">
++            <svg xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" viewBox="0 0 1024 1024">
++                <path
++                    d="M512 0C229 0 0 229 0 512c0 226 147 418 350 486 26 5 35-11 35-25 0-12 0-53-1-95C242 909 212 818 212 818c-23-59-57-75-57-75-47-32 4-31 4-31 51 4 78 53 78 53 46 78 120 56 149 43 5-33 18-56 33-68C305 725 185 682 185 485c0-56 20-102 53-137-5-13-23-65 5-136 0 0 43-14 141 53 41-11 85-17 128-17 44 0 87 6 128 17 98-66 141-52 141-52 28 71 10 123 5 136 33 36 53 81 53 137 0 197-120 240-234 253 18 16 35 47 35 95 0 68-1 124-1 141 0 14 9 30 35 25C877 930 1024 738 1024 512 1024 229 795 0 512 0z" />
++            </svg>
+         </a>
+     </div>
+- </footer>
+\ No newline at end of file
++</footer>
+\ No newline at end of file
+diff --git a/node_modules/webpage-templates/app/components/homepage/body/handler.ts b/node_modules/webpage-templates/app/components/homepage/body/handler.ts
+index 305921a..2e1b2ee 100644
+--- a/node_modules/webpage-templates/app/components/homepage/body/handler.ts
++++ b/node_modules/webpage-templates/app/components/homepage/body/handler.ts
+@@ -7,7 +7,7 @@ namespace Page.Homepage {
+         const result: string[] = [];
+ 
+         // don't use forEach because not standard and fails on IE11
+-        const potentialLinks = document.querySelectorAll("a.card-link");
++        const potentialLinks = document.querySelectorAll(".card-footer a");
+         for (let i = 0; i < potentialLinks.length; ++i) {
+             const href = (potentialLinks[i] as HTMLLinkElement).href;
+             if (href && href.indexOf(projectUrlStart) === 0) {
+diff --git a/node_modules/webpage-templates/app/components/homepage/body/style.scss b/node_modules/webpage-templates/app/components/homepage/body/style.scss
+index 6ad6ecf..dc278cc 100644
+--- a/node_modules/webpage-templates/app/components/homepage/body/style.scss
++++ b/node_modules/webpage-templates/app/components/homepage/body/style.scss
+@@ -6,7 +6,7 @@ $logo-border-width: 1px;
+ 
+ main {
+     display: block; // for IE
+-    width: 100%;
++    align-items: center;
+     margin: auto;
+     padding-top: 32px;
+ 
+@@ -35,7 +35,6 @@ main {
+             left: $logo-border-width;
+             width: #{$logo-size - 2 * $logo-border-width};
+             height: #{$logo-size - 2 * $logo-border-width};
+-            border-radius: 50%;
+         }
+ 
+         &::after {
+@@ -47,6 +46,7 @@ main {
+         }
+ 
+         &::before {
++            border-radius: 50%;
+             background: $color-background;
+             content: '';
+             z-index: 0;
+diff --git a/node_modules/webpage-templates/app/components/homepage/card/style.scss b/node_modules/webpage-templates/app/components/homepage/card/style.scss
+index 2ef31ae..d3995b1 100644
+--- a/node_modules/webpage-templates/app/components/homepage/card/style.scss
++++ b/node_modules/webpage-templates/app/components/homepage/card/style.scss
+@@ -2,169 +2,125 @@
+ @import 'common/shadows';
+ @import 'common/utils';
+ 
+-$card-max-width: 512px;
+-$card-height: 256px;
+-$card-padding: 12px;
++$card-size: 256px;
+ 
+ $card-border-radius: 4px;
+ 
++$card-title-height: 36px;
++$card-action-height: 36px;
++$card-padding: 12px;
++
++$card-title-text-size: 125%;
++$card-body-text-size: 90%;
++$card-action-text-size: 100%;
++
+ $card-background-color: white;
++$card-delimitor-color: $grey-lighten-4;
+ 
+-$card-transition-time: .1s ease-in-out;
++$card-transition-time: .2s ease-in-out;
+ 
+ 
+ // Sets the shadow, size and margin
+ // ::after shadow
+ .card-frame {
+     position: relative;
+-    max-width: $card-max-width;
+-    height: $card-height;
+-    padding: $card-padding;
++    width: $card-size;
++    height: $card-size;
+ 
+     border-radius: $card-border-radius;
+     background-color: $card-background-color;
+     background-position: center;
+     background-size: cover;
+     box-shadow: $shadow-pop-1;
+-    overflow: hidden;
+-    box-sizing: border-box;
+ 
+-    &::after {
+-        position: absolute;
+-        top: 0;
+-        left: 0;
+-        width: 100%;
+-        height: 100%;
+-        background: black;
+-        content: '';
+-        opacity: 0;
+-        z-index: 1;
+-
+-        @include transition($card-transition-time)
+-    }
+-
+-    &:hover::after {
+-        opacity: 0.1;
+-    }
+-}
+-
+-.card-background {
+-    position: absolute;
+-    top: 0;
+-    left: calc(50% - #{0.5 * $card-max-width});
+-    width: $card-max-width;
+-    height: $card-height;
+-    z-index: 0;
+-
+-    .card-frame:hover > & {
+-        $blur-radius: 2;
+-        // sass-lint:disable-block quotes no-duplicate-properties
+-        // no transition for blur because it is expansive
+-        filter: blur(#{$blur-radius}px); // fallback in case better blur is not supported. This one produces white artifacts on edges.
+-        // SVG blur does not produce artifacts but not all browsers support it
+-        filter: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a' x='0' y='0' width='1' height='1'%3E%3CfeGaussianBlur stdDeviation='#{$blur-radius}' result='b'/%3E%3CfeMorphology operator='dilate' radius='#{$blur-radius}'/%3E %3CfeMerge%3E%3CfeMergeNode/%3E%3CfeMergeNode in='b'/%3E%3C/feMerge%3E%3C/filter%3E%3C/svg%3E#a");
+-    }
+-}
+-
+-.card-image {
+-    width: $card-max-width;
+-    height: $card-height;
++    overflow: hidden;
+ }
+ 
+ .card-content {
+     display: flex;
+-    position: relative;
+-    flex-flow: column nowrap;
+-    align-items: center;
+-    justify-content: space-between;
++    position: absolute;
++    flex-direction: column;
+     width: 100%;
+-    max-width: 360px;
+     height: 100%;
+-    margin: auto;
+-    border: 1px solid #cccccc;
+-    border-radius: 8px;
+-    background-color: white;
+-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+-    z-index: 2;
+-    box-sizing: border-box;
+-    user-select: none;
+ 
+     &.card-reveal {
+-        opacity: 0;
+-
+-        .card-frame:hover > & {
+-            opacity: 1;
+-        }
+-
++        @include transform(translateY(100%) translateY(-$card-title-height));
+         @include transition($card-transition-time)
+     }
+ }
+ 
+-.card-body {
+-    width: 100%;
+-    color: #353535;
+-    font-size: 90%;
+-    text-align: justify;
+-    text-indent: 1em;
+-    overflow-y: auto;
++.card-title,
++.card-body,
++.card-footer {
++    padding: 0 $card-padding;
++}
++
++.card-title {
++    flex: none;
++    height: $card-title-height;
++    background-color: $color-medium;
++    color: white;
++    font-size: $card-title-text-size;
++    line-height: $card-title-height;
++    text-align: left;
++    white-space: nowrap;
++}
+ 
+-    > p {
+-        margin: $card-padding;
++.card-frame:hover {
++    & > .card-content.card-reveal {
++        @include transform(translateY(0));
+ 
+-        &:last-child {
+-            margin-bottom: 0;
++        & > .card-title::after {
++            @include transform(rotate(225deg));
+         }
+     }
++}
+ 
+-    $scrollbar-thumb-width: 6px;
+-    $scrollbar-thumb-margin: 3px;
+-
+-    &::-webkit-scrollbar {
+-        width: $scrollbar-thumb-width + 2 * $scrollbar-thumb-margin;
++.card-content.card-reveal >.card-title {
++    &::before {
++        position: absolute;
++        top: 0;
++        right: 0;
++        width: 28px + $card-title-height;
++        height: $card-title-height;
++        background: linear-gradient(to right, rgba($color-medium, 0) 0, $color-medium 28px);
++        content: '';
+     }
+ 
+-    &::-webkit-scrollbar-track {
+-        border-radius: 8px;
+-        background-color: $card-background-color;
+-    }
++    &::after {
++        position: absolute;
++        top: 8px;
++        right: 11px;
++        width: 12px;
++        height: 12px;
++        border-top: 2px solid white;
++        border-left: 2px solid white;
++
++        content: '';
+ 
+-    &::-webkit-scrollbar-thumb {
+-        border: $scrollbar-thumb-margin solid $card-background-color;
+-        border-radius: 6px;
+-        background-color: #b1b1b1;
++        @include transform(translateY(6px) rotate(45deg));
++        @include transition(0.2s ease-in-out);
+     }
+ }
+ 
+-a.card-link {
+-    $card-link-line-height: 32px;
+-    $card-link-border-width: 2px;
+-
+-    display: block;
+-    position: relative;
+-    margin: 20px;
+-    padding: 0 24px;
+-    border: $card-link-border-width solid $color-medium;
+-    border-radius: 0.5 * ($card-link-line-height + 2 * $card-link-border-width);
+-    outline: none;
+-    background: white;
+-    color: $color-medium;
+-    font-weight: bold;
+-    line-height: $card-link-line-height;
+-    text-decoration: none;
+-
+-    &:hover {
+-        border-color: $color-lighten-2;
+-        color: $color-lighten-2;
+-    }
++.card-body {
++    flex: 1;
++    background-color: white;
++    color: #353535;
++    font-size: $card-body-text-size;
++    text-align: justify;
++    text-indent: 1em;
++    overflow-y: auto;
+ }
+ 
+-.card-title {
+-    margin: 0;
+-    padding: 0 0 0 #{0.5 * $card-border-radius};
+-    color: #2b2b2b;
+-    font-size: 112.5%;
+-    font-weight: normal;
+-    line-height: 28px;
+-    text-align: left;
+-    user-select: none;
++.card-footer {
++    display: flex;
++    flex: none;
++    flex-direction: row;
++    align-items: center;
++    justify-content: space-between;
++    height: $card-action-height;
++    border-top: 1px solid $card-delimitor-color;
++    background-color: white;
++    font-size: $card-action-text-size;
+ }
+diff --git a/node_modules/webpage-templates/app/components/homepage/card/template-interface.ts b/node_modules/webpage-templates/app/components/homepage/card/template-interface.ts
+index 049de75..8a249af 100644
+--- a/node_modules/webpage-templates/app/components/homepage/card/template-interface.ts
++++ b/node_modules/webpage-templates/app/components/homepage/card/template-interface.ts
+@@ -1,8 +1,6 @@
+ export interface ICard {
+-    // background images must have an aspect ratio of 2:1, and will be displayed with a height of 256px
+-    background: string; // must be a format supported everywhere (png or jpg)
+-    background_light?: string; // can be any format (webp etc.)
+-    background_light_highdpi?: string; // can be any format (webp etc.)
++    /* path to the background image */
++    background: string;
+ 
+     title: string;
+     projectName: string;
+diff --git a/node_modules/webpage-templates/app/components/homepage/card/template.ejs b/node_modules/webpage-templates/app/components/homepage/card/template.ejs
+index 3d0ad22..f3043be 100644
+--- a/node_modules/webpage-templates/app/components/homepage/card/template.ejs
++++ b/node_modules/webpage-templates/app/components/homepage/card/template.ejs
+@@ -1,31 +1,23 @@
+-<h2 class="card-title">#=(title)</h2>
+-<div class="card-frame">
+-    <picture class="card-background card-image">
+-        # const lightImages = [];
+-        # if (typeof background_light === "string") {
+-        #    lightImages.push(background_light);
+-        # }
+-        # if (typeof background_light_highdpi === "string") {
+-        #    lightImages.push(background_light_highdpi + " 1.1x");
+-        # }
+-        # if (lightImages.length > 0) {
+-        #    const srcset = lightImages.join(', ');
+-            <source class="card-image" srcset="#=(srcset)">
+-        # }
+-        <img class="card-image" src="#=(background)" alt="Illustration for #=(title)" />
+-    </picture>
++<div class="card-frame" style="background-image:url('#=(background)');">
+     <div class="card-content card-reveal">
++        <div class="card-title">#=(title)</div>
+         <div class="card-body">
+             #include('paragraphs', { paragraphs: body })
+         </div>
+-        <div class="card-action">
+-            # if (typeof liveLink === "boolean" && liveLink) {
++        <div class="card-footer">
++            # if (githubLink) {
++            <div>
++                # const link = {href: "https://github.com/piellardj/" + projectName + "/", text: "GitHub"};
++                #include('link', link)
++            </div>
++            # }
++            # if (liveLink) {
++            <div>
+                 # const linkArguments = (typeof liveLinkArguments !== "undefined") ? "?" + liveLinkArguments : "";
+-                # const url = "https://piellardj.github.io/" + projectName + "/" + linkArguments;
+-                <a class="card-link" href="#=(url)">See live</a>
+-            # } else if (typeof githubLink === "boolean" && githubLink) {
+-                # const url = "https://github.com/piellardj/" + projectName + "/";
+-                <a class="card-link" href="#=(url)">Github</a>
++                # const link = {href: "https://piellardj.github.io/" + projectName + "/" + linkArguments, text: "See
++                live"};
++                #include('link', link)
++            </div>
+             # }
+         </div>
+     </div>
+diff --git a/node_modules/webpage-templates/app/components/homepage/section/style.scss b/node_modules/webpage-templates/app/components/homepage/section/style.scss
+index 4c0728f..dad81b6 100644
+--- a/node_modules/webpage-templates/app/components/homepage/section/style.scss
++++ b/node_modules/webpage-templates/app/components/homepage/section/style.scss
+@@ -1,36 +1,44 @@
+ @import '../../common/utils';
+ 
+-$grid-cell-margin: 8px;
++$grid-margin: 8px;
++$max-cards-per-row: 3;
+ 
+ .projects {
+-    max-width: 1350px;
++    display: flex;
++    flex-flow: row wrap;
++    justify-content: flex-start;
++
++    width: 100%;
++    max-width: 450px * $max-cards-per-row;
+     margin: 0 auto 32px;
+-    padding: $grid-cell-margin;
+-    user-select: none;
++    padding: $grid-margin;
++    @include box-sizing(border-box);
+ 
+     & > h1 {
+         width: 100%;
+-        margin: 0 $grid-cell-margin #{$grid-cell-margin / 2};
++        margin: 0 $grid-margin #{$grid-margin / 2};
+         font-size: 200%;
+     }
+-}
+ 
+-.projects-grid {
+-    display: grid;
+-    grid-template-columns: 1fr;
++    & > .card-frame,
++    & > .card-placeholder {
++        flex: 1;
++        min-width: #{256px - $grid-margin};
++        max-width: 100%;
+ 
+-    @media only screen and (min-width: 560px) {
+-        grid-template-columns: 1fr 1fr;
++        @media only screen and (min-width: 780px) {
++            min-width: 320px;
++        }
+     }
+ 
+-    @media only screen and (min-width: 1040px) {
+-        grid-template-columns: 1fr 1fr 1fr;
++    & > .card-frame {
++        height: 256px;
++        margin: $grid-margin;
+     }
+-}
+ 
+-.projects-grid-cell {
+-    display: flex;
+-    flex-direction: column-reverse;
+-    flex-wrap: nowrap;
+-    padding: $grid-cell-margin; // don't use grid-gap because it is not supported by IE11
++    & > .card-placeholder {
++        height: 0;
++        margin: 0 $grid-margin;
++        visibility: hidden;
++    }
+ }
+diff --git a/node_modules/webpage-templates/app/components/homepage/section/template.ejs b/node_modules/webpage-templates/app/components/homepage/section/template.ejs
+index f518fab..459b2f6 100644
+--- a/node_modules/webpage-templates/app/components/homepage/section/template.ejs
++++ b/node_modules/webpage-templates/app/components/homepage/section/template.ejs
+@@ -1,10 +1,11 @@
+ <section class="projects">
+     <h1>#=(title)</h1>
+-    <div class="projects-grid">
+-        # for (let card of cards) {
+-            <div class="projects-grid-cell">
+-                #include('homepage/card', card)
+-            </div>
+-        # }
+-    </div>
+-</section>
+\ No newline at end of file
++    # for (let card of cards) {
++        #include('homepage/card', card)
++    # }
++    # const maxCardsPerRow = 3;
++    # const nbRows = Math.ceil(cards.length / maxCardsPerRow);
++    # for (let iP = cards.length; iP < nbRows * maxCardsPerRow; iP++) {
++        <div class="card-placeholder"></div>
++    # }
++  </section>
+\ No newline at end of file
+diff --git a/node_modules/webpage-templates/build/components/demopage/header/style.css b/node_modules/webpage-templates/build/components/demopage/header/style.css
+index ffd5ab5..8e5d044 100644
+--- a/node_modules/webpage-templates/build/components/demopage/header/style.css
++++ b/node_modules/webpage-templates/build/components/demopage/header/style.css
+@@ -1 +1 @@
+-body{text-align:center}header{z-index:0}.logo{display:block;position:relative;width:64px;height:64px;margin:8px auto 16px;border:1px solid #009688;border-radius:50%;background:#eee;user-select:none}.logo::before,.logo::after{position:absolute;top:-1px;left:-1px;width:64px;height:64px}.logo::before{border-radius:50%;background:#009688;content:'';z-index:0;transform:scale(0);-webkit-transform:scale(0);-ms-transform:scale(0);transition:0.1s ease;-webkit-transition:0.1s ease}.logo::after{color:#009688;font-weight:normal;line-height:64px;content:'home';z-index:1}.logo:hover,.logo:active,.logo:focus{border-width:1px}.logo:hover::before{transform:scale(1);-webkit-transform:scale(1);-ms-transform:scale(1)}.logo:hover::after{color:white}
++body{text-align:center}header{z-index:0}.logo{display:block;position:relative;width:64px;height:64px;margin:8px auto 16px;border:1px solid #009688;border-radius:50%;background:#eee;user-select:none}.logo::before,.logo::after{position:absolute;top:-1px;left:-1px;width:64px;height:64px}.logo::before{border-radius:50%;background:#009688;content:'';z-index:0;transform:scale(0);-webkit-transform:scale(0);-ms-transform:scale(0);transition:0.1s ease;-webkit-transition:0.1s ease}.logo::after{color:#009688;font-weight:normal;line-height:64px;content:'volver';z-index:1}.logo:hover,.logo:active,.logo:focus{border-width:1px}.logo:hover::before{transform:scale(1);-webkit-transform:scale(1);-ms-transform:scale(1)}.logo:hover::after{color:white}
+diff --git a/node_modules/webpage-templates/build/components/homepage/body/handler.js b/node_modules/webpage-templates/build/components/homepage/body/handler.js
+index bb318f6..9663df8 100644
+--- a/node_modules/webpage-templates/build/components/homepage/body/handler.js
++++ b/node_modules/webpage-templates/build/components/homepage/body/handler.js
+@@ -8,7 +8,7 @@ var Page;
+             var projectUrlStart = "https://piellardj.github.io/";
+             var result = [];
+             // don't use forEach because not standard and fails on IE11
+-            var potentialLinks = document.querySelectorAll("a.card-link");
++            var potentialLinks = document.querySelectorAll(".card-footer a");
+             for (var i = 0; i < potentialLinks.length; ++i) {
+                 var href = potentialLinks[i].href;
+                 if (href && href.indexOf(projectUrlStart) === 0) {
+diff --git a/node_modules/webpage-templates/build/components/homepage/body/handler.min.js b/node_modules/webpage-templates/build/components/homepage/body/handler.min.js
+index c9fe3de..878c498 100644
+--- a/node_modules/webpage-templates/build/components/homepage/body/handler.min.js
++++ b/node_modules/webpage-templates/build/components/homepage/body/handler.min.js
+@@ -1 +1 @@
+-var Page;!function(e){!function(e){var n=document.querySelector("a#logo");if(n){var o=function(){for(var e=[],n=document.querySelectorAll("a.card-link"),o=0;o<n.length;++o){var a=n[o].href;a&&0===a.indexOf("https://piellardj.github.io/")&&e.push(a)}return e}(),a=0;function r(){0===a&&function(e){function n(n,o){if(n!==o){var a=e[n];e[n]=e[o],e[o]=a}}for(var o=e.length-1;o>0;--o)n(o,Math.floor(.9999*o*Math.random()))}(o),n.href=o[a],a=(a+1)%o.length}n.classList.add("dynamic-logo"),n.href="#",n.onclick=r,n.onauxclick=r,r()}}(e.Homepage||(e.Homepage={}))}(Page||(Page={}));
+\ No newline at end of file
++var Page;!function(o){!function(o){var e=document.querySelector("a#logo");if(e){var a=function(){for(var o=[],e=document.querySelectorAll(".card-footer a"),a=0;a<e.length;++a){var n=e[a].href;n&&0===n.indexOf("https://piellardj.github.io/")&&o.push(n)}return o}(),n=0;function r(){0===n&&function(o){function e(e,a){if(e!==a){var n=o[e];o[e]=o[a],o[a]=n}}for(var a=o.length-1;a>0;--a)e(a,Math.floor(.9999*a*Math.random()))}(a),e.href=a[n],n=(n+1)%a.length}e.classList.add("dynamic-logo"),e.href="#",e.onclick=r,e.onauxclick=r,r()}}(o.Homepage||(o.Homepage={}))}(Page||(Page={}));
+\ No newline at end of file
+diff --git a/node_modules/webpage-templates/build/components/homepage/body/style.css b/node_modules/webpage-templates/build/components/homepage/body/style.css
+index 7d6ece7..08a790f 100644
+--- a/node_modules/webpage-templates/build/components/homepage/body/style.css
++++ b/node_modules/webpage-templates/build/components/homepage/body/style.css
+@@ -1 +1 @@
+-main{display:block;width:100%;margin:auto;padding-top:32px}@media only screen and (min-width: 560px){main{padding-top:64px}}#logo{display:block;position:relative;width:64px;height:64px;margin:8px auto 16px;border-radius:50%;background:#009688;text-align:center;text-decoration:none;user-select:none}#logo.dynamic-logo::after,#logo.dynamic-logo::before{position:absolute;top:1px;left:1px;width:62px;height:62px;border-radius:50%}#logo.dynamic-logo::after{color:#009688;font-weight:normal;line-height:62px;content:'random';z-index:1}#logo.dynamic-logo::before{background:#eee;content:'';z-index:0;transform:scale(0);-webkit-transform:scale(0);-ms-transform:scale(0);transition:0.1s ease;-webkit-transition:0.1s ease}#logo.dynamic-logo:hover::before{transform:scale(1);-webkit-transform:scale(1);-ms-transform:scale(1)}
++main{display:block;align-items:center;margin:auto;padding-top:32px}@media only screen and (min-width: 560px){main{padding-top:64px}}#logo{display:block;position:relative;width:64px;height:64px;margin:8px auto 16px;border-radius:50%;background:#009688;text-align:center;text-decoration:none;user-select:none}#logo.dynamic-logo::after,#logo.dynamic-logo::before{position:absolute;top:1px;left:1px;width:62px;height:62px}#logo.dynamic-logo::after{color:#009688;font-weight:normal;line-height:62px;content:'random';z-index:1}#logo.dynamic-logo::before{border-radius:50%;background:#eee;content:'';z-index:0;transform:scale(0);-webkit-transform:scale(0);-ms-transform:scale(0);transition:0.1s ease;-webkit-transition:0.1s ease}#logo.dynamic-logo:hover::before{transform:scale(1);-webkit-transform:scale(1);-ms-transform:scale(1)}
+diff --git a/node_modules/webpage-templates/build/components/homepage/card/style.css b/node_modules/webpage-templates/build/components/homepage/card/style.css
+index 6d1e6d6..77e467c 100644
+--- a/node_modules/webpage-templates/build/components/homepage/card/style.css
++++ b/node_modules/webpage-templates/build/components/homepage/card/style.css
+@@ -1 +1 @@
+-.card-frame{position:relative;max-width:512px;height:256px;padding:12px;border-radius:4px;background-color:#fff;background-position:center;background-size:cover;box-shadow:0px 1px 6px -1px gray;overflow:hidden;box-sizing:border-box}.card-frame::after{position:absolute;top:0;left:0;width:100%;height:100%;background:black;content:'';opacity:0;z-index:1;transition:0.1s ease-in-out;-webkit-transition:0.1s ease-in-out}.card-frame:hover::after{opacity:0.1}.card-background{position:absolute;top:0;left:calc(50% - 256px);width:512px;height:256px;z-index:0}.card-frame:hover>.card-background{filter:blur(2px);filter:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a' x='0' y='0' width='1' height='1'%3E%3CfeGaussianBlur stdDeviation='2' result='b'/%3E%3CfeMorphology operator='dilate' radius='2'/%3E %3CfeMerge%3E%3CfeMergeNode/%3E%3CfeMergeNode in='b'/%3E%3C/feMerge%3E%3C/filter%3E%3C/svg%3E#a")}.card-image{width:512px;height:256px}.card-content{display:flex;position:relative;flex-flow:column nowrap;align-items:center;justify-content:space-between;width:100%;max-width:360px;height:100%;margin:auto;border:1px solid #cccccc;border-radius:8px;background-color:white;box-shadow:0 0 10px rgba(0,0,0,0.4);z-index:2;box-sizing:border-box;user-select:none}.card-content.card-reveal{opacity:0;transition:0.1s ease-in-out;-webkit-transition:0.1s ease-in-out}.card-frame:hover>.card-content.card-reveal{opacity:1}.card-body{width:100%;color:#353535;font-size:90%;text-align:justify;text-indent:1em;overflow-y:auto}.card-body>p{margin:12px}.card-body>p:last-child{margin-bottom:0}.card-body::-webkit-scrollbar{width:12px}.card-body::-webkit-scrollbar-track{border-radius:8px;background-color:#fff}.card-body::-webkit-scrollbar-thumb{border:3px solid #fff;border-radius:6px;background-color:#b1b1b1}a.card-link{display:block;position:relative;margin:20px;padding:0 24px;border:2px solid #009688;border-radius:18px;outline:none;background:white;color:#009688;font-weight:bold;line-height:32px;text-decoration:none}a.card-link:hover{border-color:#4db6ac;color:#4db6ac}.card-title{margin:0;padding:0 0 0 2px;color:#2b2b2b;font-size:112.5%;font-weight:normal;line-height:28px;text-align:left;user-select:none}
++.card-frame{position:relative;width:256px;height:256px;border-radius:4px;background-color:#fff;background-position:center;background-size:cover;box-shadow:0px 1px 6px -1px gray;overflow:hidden}.card-content{display:flex;position:absolute;flex-direction:column;width:100%;height:100%}.card-content.card-reveal{transform:translateY(100%) translateY(-36px);-webkit-transform:translateY(100%) translateY(-36px);-ms-transform:translateY(100%) translateY(-36px);transition:0.2s ease-in-out;-webkit-transition:0.2s ease-in-out}.card-title,.card-body,.card-footer{padding:0 12px}.card-title{flex:none;height:36px;background-color:#009688;color:white;font-size:125%;line-height:36px;text-align:left;white-space:nowrap}.card-frame:hover>.card-content.card-reveal{transform:translateY(0);-webkit-transform:translateY(0);-ms-transform:translateY(0)}.card-frame:hover>.card-content.card-reveal>.card-title::after{transform:rotate(225deg);-webkit-transform:rotate(225deg);-ms-transform:rotate(225deg)}.card-content.card-reveal>.card-title::before{position:absolute;top:0;right:0;width:64px;height:36px;background:linear-gradient(to right, rgba(0,150,136,0) 0, #009688 28px);content:''}.card-content.card-reveal>.card-title::after{position:absolute;top:8px;right:11px;width:12px;height:12px;border-top:2px solid white;border-left:2px solid white;content:'';transform:translateY(6px) rotate(45deg);-webkit-transform:translateY(6px) rotate(45deg);-ms-transform:translateY(6px) rotate(45deg);transition:0.2s ease-in-out;-webkit-transition:0.2s ease-in-out}.card-body{flex:1;background-color:white;color:#353535;font-size:90%;text-align:justify;text-indent:1em;overflow-y:auto}.card-footer{display:flex;flex:none;flex-direction:row;align-items:center;justify-content:space-between;height:36px;border-top:1px solid #dbdbdb;background-color:white;font-size:100%}
+diff --git a/node_modules/webpage-templates/build/components/homepage/card/template-interface.d.ts b/node_modules/webpage-templates/build/components/homepage/card/template-interface.d.ts
+index e780d16..bf6f30d 100644
+--- a/node_modules/webpage-templates/build/components/homepage/card/template-interface.d.ts
++++ b/node_modules/webpage-templates/build/components/homepage/card/template-interface.d.ts
+@@ -1,7 +1,5 @@
+ export interface ICard {
+     background: string;
+-    background_light?: string;
+-    background_light_highdpi?: string;
+     title: string;
+     projectName: string;
+     githubLink?: boolean;
+diff --git a/node_modules/webpage-templates/build/components/homepage/section/style.css b/node_modules/webpage-templates/build/components/homepage/section/style.css
+index 02d7852..8b2a4e6 100644
+--- a/node_modules/webpage-templates/build/components/homepage/section/style.css
++++ b/node_modules/webpage-templates/build/components/homepage/section/style.css
+@@ -1 +1 @@
+-.projects{max-width:1350px;margin:0 auto 32px;padding:8px;user-select:none}.projects>h1{width:100%;margin:0 8px 4px;font-size:200%}.projects-grid{display:grid;grid-template-columns:1fr}@media only screen and (min-width: 560px){.projects-grid{grid-template-columns:1fr 1fr}}@media only screen and (min-width: 1040px){.projects-grid{grid-template-columns:1fr 1fr 1fr}}.projects-grid-cell{display:flex;flex-direction:column-reverse;flex-wrap:nowrap;padding:8px}
++.projects{display:flex;flex-flow:row wrap;justify-content:flex-start;width:100%;max-width:1350px;margin:0 auto 32px;padding:8px;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box}.projects>h1{width:100%;margin:0 8px 4px;font-size:200%}.projects>.card-frame,.projects>.card-placeholder{flex:1;min-width:248px;max-width:100%}@media only screen and (min-width: 780px){.projects>.card-frame,.projects>.card-placeholder{min-width:320px}}.projects>.card-frame{height:256px;margin:8px}.projects>.card-placeholder{height:0;margin:0 8px;visibility:hidden}

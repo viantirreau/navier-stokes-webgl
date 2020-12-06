@@ -246,7 +246,7 @@ void main(void) {
 
     vec2 vel = decodeVelocity(texture2D(uVelocities, coords));
     vel *= sign(0.5 - dot(obstacle,obstacle));
-
+    
     gl_FragColor = encodeVelocity(vel);
 }`;
 

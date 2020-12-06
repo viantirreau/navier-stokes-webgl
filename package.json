@@ -9,7 +9,8 @@
     "clean": "shx rm -rf docs/* **/*generated.*",
     "remove-tmp": "shx rm -rf tmp",
     "rebuild": "npm run clean && npm run build && npm run remove-tmp",
-    "webpack": "webpack --config src/config/webpack.config.js --mode=production --output docs/script/main.js"
+    "webpack": "webpack --config src/config/webpack.config.js --mode=production --output docs/script/main.js",
+    "postinstall": "npx patch-package"
   },
   "author": "“Jérémie PIELLARD <jeremie.piellard@gmail.com> (https://github.com/piellardj)",
   "repository": "github:piellardj/navier-stokes-webgl",
